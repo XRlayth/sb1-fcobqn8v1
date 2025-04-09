@@ -25,6 +25,8 @@ function ContactForm() {
     e.preventDefault();
     setStatus('submitting');
 
+    console.log("Form data being sent:", formData); // Logowanie danych formularza przed wysłaniem
+
     try {
       await sendEmail(formData);
       setStatus('success');
