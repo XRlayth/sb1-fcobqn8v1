@@ -11,28 +11,29 @@ function Header() {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const isPolish = i18n.language === 'pl';
+  const basePath = isPolish ? '/główna' : '/main';
   
   const getLocalizedPath = (path: string) => {
-    const basePath = i18n.language === 'en' ? '/main' : '/główna';
     const routes: { [key: string]: { en: string; pl: string } } = {
-      'about': { en: '/about', pl: '/o-nas' },
-      'services': { en: '/services', pl: '/usługi' },
-      'contact': { en: '/contact', pl: '/kontakt' },
-      'get-started': { en: '/get-started', pl: '/rozpocznij' },
-      'dashboard': { en: '/dashboard', pl: '/panel' },
-      'account': { en: '/account', pl: '/konto' },
-      'reset-password': { en: '/reset-password', pl: '/reset-hasła' },
-      'services/chatbots': { en: '/services/chatbots', pl: '/usługi/chatboty' },
-      'services/phone-callers': { en: '/services/phone-callers', pl: '/usługi/automatyzacja-połączeń' },
-      'services/web-design': { en: '/services/web-design', pl: '/usługi/projektowanie-stron' },
-      'services/custom-ai': { en: '/services/custom-ai', pl: '/usługi/rozwiązania-ai' },
-      'services/content-creation': { en: '/services/content-creation', pl: '/usługi/tworzenie-treści' },
-      'services/digital-marketing': { en: '/services/digital-marketing', pl: '/usługi/marketing-cyfrowy' }
+      'about': { en: '/main/about', pl: '/główna/o-nas' },
+      'services': { en: '/main/services', pl: '/główna/usługi' },
+      'contact': { en: '/main/contact', pl: '/główna/kontakt' },
+      'get-started': { en: '/main/get-started', pl: '/główna/rozpocznij' },
+      'dashboard': { en: '/main/dashboard', pl: '/główna/panel' },
+      'account': { en: '/main/account', pl: '/główna/konto' },
+      'reset-password': { en: '/main/reset-password', pl: '/główna/reset-hasła' },
+      'services/chatbots': { en: '/main/services/chatbots', pl: '/główna/usługi/chatboty' },
+      'services/phone-callers': { en: '/main/services/phone-callers', pl: '/główna/usługi/automatyzacja-połączeń' },
+      'services/web-design': { en: '/main/services/web-design', pl: '/główna/usługi/projektowanie-stron' },
+      'services/custom-ai': { en: '/main/services/custom-ai', pl: '/główna/usługi/rozwiązania-ai' },
+      'services/content-creation': { en: '/main/services/content-creation', pl: '/główna/usługi/tworzenie-treści' },
+      'services/digital-marketing': { en: '/main/services/digital-marketing', pl: '/główna/usługi/marketing-cyfrowy' }
     };
 
     for (const [key, value] of Object.entries(routes)) {
       if (path.includes(key)) {
-        return basePath + value[i18n.language as 'en' | 'pl'];
+        return value[isPolish ? 'pl' : 'en'];
       }
     }
     return basePath;
@@ -55,16 +56,25 @@ function Header() {
   };
 
   const handleLanguageSwitch = (lng: string) => {
-    const basePath = lng === 'en' ? '/main' : '/główna';
-    navigate(basePath);
+    const currentPath = location.pathname;
+    const isCurrentlyPolish = currentPath.includes('główna');
+    let newPath = currentPath;
+
+    if (lng === 'pl' && !isCurrentlyPolish) {
+      newPath = currentPath.replace('/main', '/główna');
+    } else if (lng === 'en' && isCurrentlyPolish) {
+      newPath = currentPath.replace('/główna', '/main');
+    }
+
     i18n.changeLanguage(lng);
+    navigate(newPath);
   };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link 
-          to={i18n.language === 'en' ? '/main' : '/główna'} 
+          to={basePath}
           className="flex items-center space-x-3 frame-hover"
           onClick={() => window.scrollTo(0, 0)}
         >
@@ -85,7 +95,7 @@ function Header() {
             <button
               onClick={() => handleLanguageSwitch('en')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                i18n.language === 'en' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
+                !isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
               }`}
             >
               <img
@@ -97,7 +107,7 @@ function Header() {
             <button
               onClick={() => handleLanguageSwitch('pl')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                i18n.language === 'pl' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
+                isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
               }`}
             >
               <img
@@ -166,7 +176,7 @@ function Header() {
                 <button
                   onClick={() => handleLanguageSwitch('en')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    i18n.language === 'en' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
+                    !isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
                   }`}
                 >
                   <img
@@ -178,7 +188,7 @@ function Header() {
                 <button
                   onClick={() => handleLanguageSwitch('pl')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    i18n.language === 'pl' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
+                    isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
                   }`}
                 >
                   <img

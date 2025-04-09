@@ -1,8 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Twitter, Linkedin, Mail, MapPin, Phone, Instagram } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 function Footer() {
+  const { i18n } = useTranslation();
+  const location = useLocation();
+  const isPolish = i18n.language === 'pl' || location.pathname.includes('główna');
+  const basePath = isPolish ? '/główna' : '/main';
+
+  const getLocalizedPath = (path: string) => {
+    const routes: { [key: string]: { en: string; pl: string } } = {
+      'about': { en: '/main/about', pl: '/główna/o-nas' },
+      'services': { en: '/main/services', pl: '/główna/usługi' },
+      'contact': { en: '/main/contact', pl: '/główna/kontakt' },
+      'terms': { en: '/main/terms', pl: '/główna/regulamin' },
+      'privacy': { en: '/main/privacy', pl: '/główna/prywatnosc' },
+      'cookies': { en: '/main/cookies', pl: '/główna/ciasteczka' }
+    };
+
+    return routes[path]?.[isPolish ? 'pl' : 'en'] || basePath;
+  };
+
   return (
     <footer className="bg-black/80 border-t border-gray-800 py-12">
       <div className="max-w-7xl mx-auto px-4">
@@ -12,87 +31,87 @@ function Footer() {
               <img src="/93aed375-ff01-4d9d-9b1a-d095aa7f58e6.png" alt="Neural AI" className="h-8 mb-4" />
             </div>
             <p className="text-gray-400 text-sm">
-              Pioneering the future of AI automation for businesses worldwide.
+              {isPolish ? 'Pionierzy przyszłości automatyzacji AI dla firm na całym świecie.' : 'Pioneering the future of AI automation for businesses worldwide.'}
             </p>
           </div>
           
           <div className="text-center md:text-left">
-            <h3 className="text-white font-semibold mb-4">Company</h3>
+            <h3 className="text-white font-semibold mb-4">{isPolish ? 'Firma' : 'Company'}</h3>
             <ul className="space-y-2">
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/" 
+                  to={basePath}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Main Page
+                  {isPolish ? 'Strona Główna' : 'Main Page'}
                 </Link>
               </li>
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/about" 
+                  to={getLocalizedPath('about')}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  About
+                  {isPolish ? 'O Nas' : 'About'}
                 </Link>
               </li>
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/services" 
+                  to={getLocalizedPath('services')}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Services
+                  {isPolish ? 'Usługi' : 'Services'}
                 </Link>
               </li>
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/contact" 
+                  to={getLocalizedPath('contact')}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Contact
+                  {isPolish ? 'Kontakt' : 'Contact'}
                 </Link>
               </li>
             </ul>
           </div>
           
           <div className="text-center md:text-left">
-            <h3 className="text-white font-semibold mb-4">Legal</h3>
+            <h3 className="text-white font-semibold mb-4">{isPolish ? 'Prawne' : 'Legal'}</h3>
             <ul className="space-y-2">
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/terms" 
+                  to={getLocalizedPath('terms')}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Terms of Service
+                  {isPolish ? 'Regulamin' : 'Terms of Service'}
                 </Link>
               </li>
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/privacy" 
+                  to={getLocalizedPath('privacy')}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Privacy Policy
+                  {isPolish ? 'Polityka Prywatności' : 'Privacy Policy'}
                 </Link>
               </li>
               <li className="flex justify-center md:justify-start">
                 <Link 
-                  to="/cookies" 
+                  to={getLocalizedPath('cookies')}
                   className="text-gray-400 hover:text-white text-sm"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Cookie Policy
+                  {isPolish ? 'Polityka Cookies' : 'Cookie Policy'}
                 </Link>
               </li>
             </ul>
           </div>
           
           <div className="text-center md:text-left">
-            <h3 className="text-white font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-white font-semibold mb-4">{isPolish ? 'Kontakt' : 'Contact Us'}</h3>
             <div className="space-y-4">
               <div className="flex items-center justify-center md:justify-start space-x-3 text-gray-400">
                 <Mail className="w-5 h-5 text-white" />
@@ -123,7 +142,7 @@ function Footer() {
         
         <div className="border-t border-gray-800 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Neural AI. All rights reserved.
+            © {new Date().getFullYear()} Neural AI. {isPolish ? 'Wszelkie prawa zastrzeżone.' : 'All rights reserved.'}
           </p>
         </div>
       </div>
