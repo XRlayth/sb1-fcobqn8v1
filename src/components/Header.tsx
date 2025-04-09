@@ -12,14 +12,40 @@ function Header() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   
+  const getLocalizedPath = (path: string) => {
+    const basePath = i18n.language === 'en' ? '/main' : '/główna';
+    const routes: { [key: string]: { en: string; pl: string } } = {
+      'about': { en: '/about', pl: '/o-nas' },
+      'services': { en: '/services', pl: '/usługi' },
+      'contact': { en: '/contact', pl: '/kontakt' },
+      'get-started': { en: '/get-started', pl: '/rozpocznij' },
+      'dashboard': { en: '/dashboard', pl: '/panel' },
+      'account': { en: '/account', pl: '/konto' },
+      'reset-password': { en: '/reset-password', pl: '/reset-hasła' },
+      'services/chatbots': { en: '/services/chatbots', pl: '/usługi/chatboty' },
+      'services/phone-callers': { en: '/services/phone-callers', pl: '/usługi/automatyzacja-połączeń' },
+      'services/web-design': { en: '/services/web-design', pl: '/usługi/projektowanie-stron' },
+      'services/custom-ai': { en: '/services/custom-ai', pl: '/usługi/rozwiązania-ai' },
+      'services/content-creation': { en: '/services/content-creation', pl: '/usługi/tworzenie-treści' },
+      'services/digital-marketing': { en: '/services/digital-marketing', pl: '/usługi/marketing-cyfrowy' }
+    };
+
+    for (const [key, value] of Object.entries(routes)) {
+      if (path.includes(key)) {
+        return basePath + value[i18n.language as 'en' | 'pl'];
+      }
+    }
+    return basePath;
+  };
+  
   const services = [
-    { name: t('nav.seeAll'), path: '/services' },
-    { name: t('nav.aiChatbots'), path: '/services/chatbots' },
-    { name: t('nav.phoneCallers'), path: '/services/phone-callers' },
-    { name: t('nav.webDesign'), path: '/services/web-design' },
-    { name: t('nav.customAI'), path: '/services/custom-ai' },
-    { name: t('nav.contentCreation'), path: '/services/content-creation' },
-    { name: t('nav.digitalMarketing'), path: '/services/digital-marketing' },
+    { name: t('nav.seeAll'), path: getLocalizedPath('services') },
+    { name: t('nav.aiChatbots'), path: getLocalizedPath('services/chatbots') },
+    { name: t('nav.phoneCallers'), path: getLocalizedPath('services/phone-callers') },
+    { name: t('nav.webDesign'), path: getLocalizedPath('services/web-design') },
+    { name: t('nav.customAI'), path: getLocalizedPath('services/custom-ai') },
+    { name: t('nav.contentCreation'), path: getLocalizedPath('services/content-creation') },
+    { name: t('nav.digitalMarketing'), path: getLocalizedPath('services/digital-marketing') }
   ];
 
   const handleLinkClick = () => {
@@ -29,8 +55,21 @@ function Header() {
   };
 
   const changeLanguage = (lng: string) => {
+    const currentPath = location.pathname;
+    const newBasePath = lng === 'en' ? '/main' : '/główna';
+    let newPath = newBasePath;
+
+    if (currentPath.includes('/services/')) {
+      const servicePath = currentPath.split('/').slice(3).join('/');
+      newPath = getLocalizedPath(`services/${servicePath}`);
+    } else {
+      const pagePath = currentPath.split('/')[2];
+      if (pagePath) {
+        newPath = getLocalizedPath(pagePath);
+      }
+    }
+
     i18n.changeLanguage(lng);
-    const newPath = location.pathname.replace(/^\/(en|pl)/, `/${lng}`);
     navigate(newPath);
   };
 
@@ -38,7 +77,7 @@ function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link 
-          to="/" 
+          to={i18n.language === 'en' ? '/main' : '/główna'} 
           className="flex items-center space-x-3 frame-hover"
           onClick={() => window.scrollTo(0, 0)}
         >
@@ -71,7 +110,7 @@ function Header() {
             <button
               onClick={() => changeLanguage('pl')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                i18n.language === 'pl' ? 'opacity-50 hover:opacity-75' : ''
+                i18n.language === 'pl' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
               }`}
             >
               <img
@@ -82,14 +121,14 @@ function Header() {
             </button>
           </div>
 
-          <NavLink to="/about" active={location.pathname === '/about'}>
+          <NavLink to={getLocalizedPath('about')} active={location.pathname.includes('about') || location.pathname.includes('o-nas')}>
             {t('nav.about')}
           </NavLink>
           
           <div className="relative">
             <button
               className={`text-sm font-medium transition-colors duration-300 flex items-center space-x-1 frame-hover ${
-                location.pathname.includes('/services') ? 'text-white' : 'text-gray-400 hover:text-white'
+                location.pathname.includes('services') || location.pathname.includes('usługi') ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
               onClick={() => setIsServicesOpen(!isServicesOpen)}
             >
@@ -113,18 +152,18 @@ function Header() {
             )}
           </div>
 
-          <NavLink to="/contact" active={location.pathname === '/contact'}>
+          <NavLink to={getLocalizedPath('contact')} active={location.pathname.includes('contact') || location.pathname.includes('kontakt')}>
             {t('nav.contact')}
           </NavLink>
           
           {isAuthenticated && (
-            <NavLink to="/account" active={location.pathname === '/account'}>
+            <NavLink to={getLocalizedPath('account')} active={location.pathname.includes('account') || location.pathname.includes('konto')}>
               {t('nav.account')}
             </NavLink>
           )}
           
           <Link
-            to={isAuthenticated ? "/dashboard" : "/get-started"}
+            to={isAuthenticated ? getLocalizedPath('dashboard') : getLocalizedPath('get-started')}
             className="px-6 py-2 rounded-full border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300 frame-hover"
             onClick={() => window.scrollTo(0, 0)}
           >
@@ -152,7 +191,7 @@ function Header() {
                 <button
                   onClick={() => changeLanguage('pl')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    i18n.language === 'pl' ? 'opacity-50 hover:opacity-75' : ''
+                    i18n.language === 'pl' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
                   }`}
                 >
                   <img
@@ -164,7 +203,7 @@ function Header() {
               </div>
 
               <Link
-                to="/about"
+                to={getLocalizedPath('about')}
                 className="block px-4 py-2 text-gray-400 hover:text-white"
                 onClick={handleLinkClick}
               >
@@ -197,7 +236,7 @@ function Header() {
               </div>
 
               <Link
-                to="/contact"
+                to={getLocalizedPath('contact')}
                 className="block px-4 py-2 text-gray-400 hover:text-white"
                 onClick={handleLinkClick}
               >
@@ -206,7 +245,7 @@ function Header() {
               
               {isAuthenticated && (
                 <Link
-                  to="/account"
+                  to={getLocalizedPath('account')}
                   className="block px-4 py-2 text-gray-400 hover:text-white"
                   onClick={handleLinkClick}
                 >
@@ -215,7 +254,7 @@ function Header() {
               )}
               
               <Link
-                to={isAuthenticated ? "/dashboard" : "/get-started"}
+                to={isAuthenticated ? getLocalizedPath('dashboard') : getLocalizedPath('get-started')}
                 className="block px-4 py-2 text-white font-bold hover:bg-white/10"
                 onClick={handleLinkClick}
               >
