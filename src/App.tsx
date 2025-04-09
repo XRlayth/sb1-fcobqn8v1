@@ -14,42 +14,42 @@ const services = [
     icon: <MessageSquare className="w-8 h-8" />,
     title: 'AI Chatbots',
     description: 'Intelligent conversational agents that enhance customer engagement 24/7.',
-    link: '/services/chatbots',
+    link: 'main/services/chatbots',
     size: 'small'
   },
   {
     icon: <Phone className="w-8 h-8" />,
     title: 'Phone Callers',
     description: 'Advanced AI-powered calling solutions for seamless communication.',
-    link: '/services/phone-callers',
+    link: 'main/services/phone-callers',
     size: 'small'
   },
   {
     icon: <Monitor className="w-8 h-8" />,
     title: 'Web Design',
     description: 'Stunning, modern web experiences that captivate and convert. Our team creates websites that not only look beautiful but drive real business results.',
-    link: '/services/web-design',
+    link: 'main/services/web-design',
     size: 'large'
   },
   {
     icon: <Bot className="w-8 h-8" />,
     title: 'Custom AI Solutions',
     description: 'Tailored artificial intelligence solutions for your specific needs.',
-    link: '/services/custom-ai',
+    link: 'main/services/custom-ai',
     size: 'small'
   },
   {
     icon: <PenTool className="w-8 h-8" />,
     title: 'Content Creation',
     description: 'Craft compelling content that engages your audience and drives results.',
-    link: '/services/content-creation',
+    link: 'main/services/content-creation',
     size: 'small'
   },
   {
     icon: <BarChart3 className="w-8 h-8" />,
     title: 'Digital Marketing',
     description: 'Boost your online presence with AI-powered digital marketing strategies. We help businesses grow their digital footprint and achieve measurable results.',
-    link: '/services/digital-marketing',
+    link: 'main/services/digital-marketing',
     size: 'large'
   }
 ];
