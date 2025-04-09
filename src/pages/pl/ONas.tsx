@@ -110,14 +110,14 @@ function ONas() {
               
               <div className="flex flex-wrap justify-center gap-4">
                 <Link
-                  to="/usługi"
+                  to="główna/usługi"
                   className="px-8 py-3 bg-white text-black rounded-full hover:bg-white/90 transition-all duration-300"
                   onClick={() => window.scrollTo(0, 0)}
                 >
                   Zobacz Nasze Usługi
                 </Link>
                 <Link
-                  to="/kontakt"
+                  to="główna/kontakt"
                   className="px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-black transition-all duration-300"
                   onClick={() => window.scrollTo(0, 0)}
                 >
