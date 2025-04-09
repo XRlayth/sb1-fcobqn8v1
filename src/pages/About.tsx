@@ -21,26 +21,9 @@ function About() {
             >
               <h1 className="text-7xl font-bold mb-8 tracking-wider text-white">ABOUT NEURAL AI</h1>
               <p className="text-xl text-gray-400 leading-relaxed mb-8">
-                We are pioneers in AI automation, dedicated to transforming businesses 
-                through cutting-edge artificial intelligence solutions.
+                We're a next-generation marketing agency that harnesses the power of AI to transform 
+                how businesses connect with their audience and drive growth.
               </p>
-              
-              {/* Quote Section with Background */}
-              <div className="relative py-16 px-4 mb-16 overflow-hidden rounded-2xl border border-white/20">
-                <div className="absolute inset-0 z-0">
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20"></div>
-                  <img 
-                    src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80" 
-                    alt="Explosion" 
-                    className="w-full h-full object-cover opacity-30"
-                  />
-                </div>
-                <div className="relative z-10">
-                  <p className="text-3xl font-serif italic text-white">
-                    "Two man brigade, holding a hand grenade"
-                  </p>
-                </div>
-              </div>
             </motion.div>
           </div>
         </section>
@@ -59,9 +42,10 @@ function About() {
                 <div className="text-white mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Brain className="w-12 h-12 mx-auto" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Our Mission</h3>
+                <h3 className="text-xl font-bold mb-4">Our Vision</h3>
                 <p className="text-gray-400">
-                  To empower businesses with intelligent automation solutions that drive growth and innovation.
+                  To revolutionize digital marketing by seamlessly blending human creativity 
+                  with artificial intelligence, creating unprecedented growth opportunities for our clients.
                 </p>
               </motion.div>
 
@@ -75,9 +59,10 @@ function About() {
                 <div className="text-white mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Cpu className="w-12 h-12 mx-auto" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Our Technology</h3>
+                <h3 className="text-xl font-bold mb-4">Our Approach</h3>
                 <p className="text-gray-400">
-                  We leverage state-of-the-art AI and machine learning to create powerful, scalable solutions.
+                  We combine data-driven insights with creative excellence, leveraging cutting-edge AI 
+                  technology to deliver marketing solutions that consistently outperform traditional methods.
                 </p>
               </motion.div>
 
@@ -93,7 +78,8 @@ function About() {
                 </div>
                 <h3 className="text-xl font-bold mb-4">Our Impact</h3>
                 <p className="text-gray-400">
-                  We've helped countless businesses achieve digital transformation and operational excellence.
+                  Our clients experience an average of 300% increase in engagement and 150% boost in 
+                  conversion rates through our AI-enhanced marketing strategies.
                 </p>
               </motion.div>
             </div>
@@ -109,18 +95,21 @@ function About() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl font-bold mb-8">Who We Are</h2>
+              <h2 className="text-4xl font-bold mb-8">Our Story</h2>
               <p className="text-lg text-gray-400 leading-relaxed mb-12">
-                Neural AI was founded in 2024 by two visionary pioneers in AI automation. 
-                With a shared passion for technology and innovation, we set out to revolutionize 
-                how businesses operate in the digital age. Our journey began with a simple mission: 
-                to make advanced AI technology accessible and practical for businesses of all sizes.
+                Founded in 2024, Neural AI emerged from a simple yet powerful observation: traditional 
+                marketing agencies weren't keeping pace with technological advancement. We saw an 
+                opportunity to revolutionize the industry by integrating artificial intelligence into 
+                every aspect of digital marketing.
                 <br /><br />
-                Through dedication and continuous learning, we've mastered a diverse set of skills 
-                that enable us to deliver comprehensive AI solutions. From chatbots and voice AI to 
-                custom automation systems, our expertise spans the full spectrum of modern AI applications. 
-                We take pride in our ability to transform complex business challenges into elegant, 
-                efficient solutions that drive real results.
+                Our team combines seasoned marketing professionals with AI specialists, creating a 
+                unique blend of expertise that drives unprecedented results for our clients. We've 
+                developed proprietary AI algorithms that analyze market trends, predict consumer 
+                behavior, and optimize marketing strategies in real-time.
+                <br /><br />
+                Today, we're proud to serve clients across various industries, from startups to 
+                enterprise-level businesses, helping them achieve their growth objectives through 
+                our innovative approach to digital marketing.
               </p>
               
               <div className="flex flex-wrap justify-center gap-4">
@@ -129,14 +118,14 @@ function About() {
                   className="px-8 py-3 bg-white text-black rounded-full hover:bg-white/90 transition-all duration-300"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  See Services
+                  Explore Our Services
                 </Link>
                 <Link
                   to="/contact"
                   className="px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-black transition-all duration-300"
                   onClick={() => window.scrollTo(0, 0)}
                 >
-                  Contact
+                  Get in Touch
                 </Link>
               </div>
             </motion.div>

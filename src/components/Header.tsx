@@ -59,7 +59,7 @@ function Header() {
             <button
               onClick={() => changeLanguage('en')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                i18n.language === 'en' ? 'opacity-100' : 'opacity-50 hover:opacity-75'
+                i18n.language === 'en' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
               }`}
             >
               <img
@@ -71,7 +71,7 @@ function Header() {
             <button
               onClick={() => changeLanguage('pl')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                i18n.language === 'pl' ? 'opacity-100' : 'opacity-50 hover:opacity-75'
+                i18n.language === 'pl' ? 'opacity-50 hover:opacity-75' : ''
               }`}
             >
               <img
@@ -140,7 +140,7 @@ function Header() {
                 <button
                   onClick={() => changeLanguage('en')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    i18n.language === 'en' ? 'opacity-100' : 'opacity-50 hover:opacity-75'
+                    i18n.language === 'en' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
                   }`}
                 >
                   <img
@@ -152,7 +152,7 @@ function Header() {
                 <button
                   onClick={() => changeLanguage('pl')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    i18n.language === 'pl' ? 'opacity-100' : 'opacity-50 hover:opacity-75'
+                    i18n.language === 'pl' ? 'opacity-50 hover:opacity-75' : ''
                   }`}
                 >
                   <img
