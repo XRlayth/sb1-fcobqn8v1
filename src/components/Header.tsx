@@ -54,23 +54,10 @@ function Header() {
     window.scrollTo(0, 0);
   };
 
-  const changeLanguage = (lng: string) => {
-    const currentPath = location.pathname;
-    const newBasePath = lng === 'en' ? '/main' : '/główna';
-    let newPath = newBasePath;
-
-    if (currentPath.includes('/services/')) {
-      const servicePath = currentPath.split('/').slice(3).join('/');
-      newPath = getLocalizedPath(`services/${servicePath}`);
-    } else {
-      const pagePath = currentPath.split('/')[2];
-      if (pagePath) {
-        newPath = getLocalizedPath(pagePath);
-      }
-    }
-
+  const handleLanguageSwitch = (lng: string) => {
+    const basePath = lng === 'en' ? '/main' : '/główna';
+    navigate(basePath);
     i18n.changeLanguage(lng);
-    navigate(newPath);
   };
 
   return (
@@ -96,7 +83,7 @@ function Header() {
         <nav className="hidden md:flex items-center space-x-8">
           <div className="flex items-center space-x-4 mr-4">
             <button
-              onClick={() => changeLanguage('en')}
+              onClick={() => handleLanguageSwitch('en')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
                 i18n.language === 'en' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
               }`}
@@ -108,7 +95,7 @@ function Header() {
               />
             </button>
             <button
-              onClick={() => changeLanguage('pl')}
+              onClick={() => handleLanguageSwitch('pl')}
               className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
                 i18n.language === 'pl' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
               }`}
@@ -177,7 +164,7 @@ function Header() {
             <div className="p-4 space-y-4">
               <div className="flex justify-center space-x-4 mb-4">
                 <button
-                  onClick={() => changeLanguage('en')}
+                  onClick={() => handleLanguageSwitch('en')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
                     i18n.language === 'en' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
                   }`}
@@ -189,7 +176,7 @@ function Header() {
                   />
                 </button>
                 <button
-                  onClick={() => changeLanguage('pl')}
+                  onClick={() => handleLanguageSwitch('pl')}
                   className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
                     i18n.language === 'pl' ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
                   }`}

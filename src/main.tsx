@@ -19,6 +19,19 @@ import DigitalMarketing from './pages/services/DigitalMarketing.tsx';
 import Terms from './pages/legal/Terms.tsx';
 import Privacy from './pages/legal/Privacy.tsx';
 import Cookies from './pages/legal/Cookies.tsx';
+
+// Polish pages
+import Glowna from './pages/pl/Glowna.tsx';
+import ONas from './pages/pl/ONas.tsx';
+import Uslugi from './pages/pl/Uslugi.tsx';
+import Kontakt from './pages/pl/Kontakt.tsx';
+import UslugiChatboty from './pages/pl/UslugiChatboty.tsx';
+import UslugiAutomatyzacjaPolaczen from './pages/pl/UslugiAutomatyzacjaPolaczen.tsx';
+import UslugiProjektowanieStron from './pages/pl/UslugiProjektowanieStron.tsx';
+import UslugiRozwiazaniaAI from './pages/pl/UslugiRozwiazaniaAI.tsx';
+import UslugiTworzenieTresci from './pages/pl/UslugiTworzenieTresci.tsx';
+import UslugiMarketingCyfrowy from './pages/pl/UslugiMarketingCyfrowy.tsx';
+
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -26,8 +39,8 @@ createRoot(document.getElementById('root')!).render(
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/main" replace />} />
-        <Route path="/main/*" element={<App />} />
-        <Route path="/główna/*" element={<App />} />
+        <Route path="/main" element={<App />} />
+        <Route path="/główna" element={<Glowna />} />
         <Route path="/en/*" element={<Navigate to="/main" replace />} />
         <Route path="/pl/*" element={<Navigate to="/główna" replace />} />
         
@@ -50,22 +63,16 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/main/cookies" element={<Cookies />} />
 
         {/* Polish routes */}
-        <Route path="/główna/o-nas" element={<About />} />
-        <Route path="/główna/usługi" element={<Services />} />
-        <Route path="/główna/kontakt" element={<Contact />} />
-        <Route path="/główna/rozpocznij" element={<GetStarted />} />
-        <Route path="/główna/panel" element={<Dashboard />} />
-        <Route path="/główna/konto" element={<Account />} />
-        <Route path="/główna/reset-hasła" element={<ResetPassword />} />
-        <Route path="/główna/usługi/chatboty" element={<Chatbots />} />
-        <Route path="/główna/usługi/automatyzacja-połączeń" element={<PhoneCallers />} />
-        <Route path="/główna/usługi/projektowanie-stron" element={<WebDesign />} />
-        <Route path="/główna/usługi/rozwiązania-ai" element={<CustomAI />} />
-        <Route path="/główna/usługi/tworzenie-treści" element={<ContentCreation />} />
-        <Route path="/główna/usługi/marketing-cyfrowy" element={<DigitalMarketing />} />
-        <Route path="/główna/regulamin" element={<Terms />} />
-        <Route path="/główna/prywatność" element={<Privacy />} />
-        <Route path="/główna/ciasteczka" element={<Cookies />} />
+        <Route path="/główna/o-nas" element={<ONas />} />
+        <Route path="/główna/usługi" element={<Uslugi />} />
+        <Route path="/główna/kontakt" element={<Kontakt />} />
+        <Route path="/główna/usługi/chatboty" element={<UslugiChatboty />} />
+        <Route path="/główna/usługi/automatyzacja-połączeń" element={<UslugiAutomatyzacjaPolaczen />} />
+        <Route path="/główna/usługi/projektowanie-stron" element={<UslugiProjektowanieStron />} />
+        
+        <Route path="/główna/usługi/rozwiązania-ai" element={<UslugiRozwiazaniaAI />} />
+        <Route path="/główna/usługi/tworzenie-treści" element={<UslugiTworzenieTresci />} />
+        <Route path="/główna/usługi/marketing-cyfrowy" element={<UslugiMarketingCyfrowy />} />
       </Routes>
     </Router>
   </StrictMode>
