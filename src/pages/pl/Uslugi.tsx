@@ -10,37 +10,37 @@ const services = [
     icon: <MessageSquare className="w-12 h-12" />,
     title: 'Chatboty AI',
     description: 'Inteligentni asystenci konwersacji, którzy zwiększają zaangażowanie klientów 24/7.',
-    link: '/usługi/chatboty'
+    link: 'główna/usługi/chatboty'
   },
   {
     icon: <Phone className="w-12 h-12" />,
     title: 'Automatyzacja Połączeń',
     description: 'Zaawansowane rozwiązania do połączeń oparte na AI dla płynnej komunikacji.',
-    link: '/usługi/automatyzacja-połączeń'
+    link: 'główna/usługi/automatyzacja-połączeń'
   },
   {
     icon: <Monitor className="w-12 h-12" />,
     title: 'Projektowanie Stron',
     description: 'Nowoczesne, atrakcyjne strony internetowe, które przyciągają i konwertują.',
-    link: '/usługi/projektowanie-stron'
+    link: 'główna/usługi/projektowanie-stron'
   },
   {
     icon: <Bot className="w-12 h-12" />,
     title: 'Rozwiązania AI',
     description: 'Dostosowane rozwiązania sztucznej inteligencji dla Twoich specyficznych potrzeb.',
-    link: '/usługi/rozwiązania-ai'
+    link: 'główna/usługi/rozwiązania-ai'
   },
   {
     icon: <PenTool className="w-12 h-12" />,
     title: 'Tworzenie Treści',
     description: 'Tworzenie angażujących treści, które przyciągają odbiorców i przynoszą rezultaty.',
-    link: '/usługi/tworzenie-treści'
+    link: 'główna/usługi/tworzenie-treści'
   },
   {
     icon: <BarChart3 className="w-12 h-12" />,
     title: 'Marketing Cyfrowy',
     description: 'Zwiększ swoją obecność online dzięki strategiom marketingowym opartym na AI.',
-    link: '/usługi/marketing-cyfrowy'
+    link: 'główna/usługi/marketing-cyfrowy'
   }
 ];
 
@@ -63,7 +63,7 @@ function Uslugi() {
                 aby transformować działania Twojej firmy.
               </p>
               <Link 
-                to="/kontakt" 
+                to="główna/kontakt" 
                 onClick={() => window.scrollTo(0, 0)}
                 className="inline-block px-8 py-3 rounded-full border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300"
               >
