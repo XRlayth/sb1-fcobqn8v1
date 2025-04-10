@@ -323,8 +323,8 @@ function App() {
                   </div>
                 </div>
                 <div className="space-y-8">
-                  <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/strona1" alt="Giant Moto Testimonial 1" className="w-full rounded-lg shadow-lg" />
-                  <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/Strona2" alt="Giant Moto Testimonial 2" className="w-full rounded-lg shadow-lg" />
+                  <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/Strona1.png" alt="Giant Moto Testimonial 1" className="w-full rounded-lg shadow-lg" />
+                  <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/strona2.jpg" alt="Giant Moto Testimonial 2" className="w-full rounded-lg shadow-lg" />
                 </div>
               </div>
             </motion.div>
