@@ -28,10 +28,10 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="text-center md:text-left">
             <div className="flex justify-center md:justify-start">
-              <img src="/93aed375-ff01-4d9d-9b1a-d095aa7f58e6.png" alt="Neural AI" className="h-8 mb-4" />
+              <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/ikonan-modified-removebg-preview.png" alt="Neural AI" className="h-8 mb-4" />
             </div>
             <p className="text-gray-400 text-sm">
-              {isPolish ? 'Pionierzy przyszłości automatyzacji AI dla firm na całym świecie.' : 'Pioneering the future of AI automation for businesses worldwide.'}
+              {isPolish ? 'Agencja, która ulepszy Twój Biznes.' : 'Agency, that will upgrade Your Business.'}
             </p>
           </div>
           
