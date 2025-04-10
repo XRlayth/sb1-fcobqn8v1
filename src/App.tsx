@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye } from 'lucide-react';
+import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye, ChevronDown } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -79,6 +79,7 @@ const differentiators = [
 
 function App() {
   const { isAuthenticated } = useAuth();
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact-section');
@@ -86,6 +87,26 @@ function App() {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth'
+    });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const testimonialSection = document.getElementById('testimonial-section');
+      if (testimonialSection) {
+        const rect = testimonialSection.getBoundingClientRect();
+        setShowScrollButton(rect.top <= window.innerHeight);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col overflow-x-hidden">
@@ -102,8 +123,46 @@ function App() {
               transition={{ duration: 1 }}
               className="z-10 flex flex-col items-center lg:items-start justify-center text-center lg:text-left"
             >
-              <h1 className="text-4xl md:text-7xl font-bold mb-4 tracking-wider text-white">
-                We Ignite Attention.<br />You Get More Clients.
+              <h1 className="text-4xl md:text-7xl font-bold mb-4 tracking-wider text-white relative">
+                Get 
+                <span className="relative inline-block mx-2">
+                  More
+                  <svg className="absolute -z-10 opacity-20" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path d="M0,50 L100,0 L100,100 Z" fill="url(#graph-gradient)" />
+                  </svg>
+                  <defs>
+                    <linearGradient id="graph-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#4facfe" />
+                      <stop offset="100%" stopColor="#00f7ff" />
+                    </linearGradient>
+                  </defs>
+                </span>
+                Clients<br />By 
+                <span className="relative inline-block mx-2">
+                  Igniting
+                  <motion.div
+                    className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-yellow-500 opacity-30 blur-lg"
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      opacity: [0.3, 0.5, 0.3]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity
+                    }}
+                  />
+                </span>
+                Attention.<br />
+                <span className="relative inline-block">
+                  Guaranteed
+                  <motion.div
+                    className="absolute -inset-1 -z-10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.2 }}
+                  >
+                    <Shield className="w-full h-full text-white opacity-30" />
+                  </motion.div>
+                </span>
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-400">
                 Transform your business with cutting-edge AI solutions that deliver real results. 
@@ -295,8 +354,30 @@ function App() {
           </div>
         </section>
 
+                {/* Services Quick Delivery Section */}
+        <section className="py-12 px-4 bg-gradient-to-r from-black to-gray-900">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-xl text-gray-300"
+            >
+              Experience lightning-fast delivery - from AI Chatbots to Custom Solutions, we deliver in just 
+              <span className="relative inline-block mx-2">
+                <span className="text-yellow-400">quickly</span>
+                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+              - often within 1 hour to 3 days!
+            </motion.p>
+          </div>
+        </section>
+
         {/* Latest Testimonial Section */}
-        <section className="py-20 px-4 border-t border-gray-800">
+        <section id="testimonial-section" className="py-20 px-4 border-t border-gray-800">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -330,9 +411,47 @@ function App() {
             </motion.div>
           </div>
         </section>
+
+        {/* Call to Action Section */}
+        <section className="py-20 px-4 bg-gradient-to-r from-black to-gray-900">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-8">
+                Don't overthink it.<br />
+                Take action, transform your business.<br />
+                <span className="text-[#4facfe]">Guaranteed.</span>
+              </h2>
+              <button
+                onClick={scrollToContact}
+                className="px-8 py-4 bg-white text-black rounded-full text-xl font-bold hover:bg-opacity-90 transition-all duration-300"
+              >
+                Get in Touch
+              </button>
+            </motion.div>
+          </div>
+        </section>
       </main>
 
       <Footer />
+
+      {/* Scroll Down Button */}
+      {showScrollButton && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          onClick={scrollToBottom}
+          className="fixed bottom-8 right-8 bg-white text-black px-6 py-3 rounded-full font-bold flex items-center space-x-2 hover:bg-opacity-90 transition-all duration-300 z-50"
+        >
+          <span>Scroll down</span>
+          <ChevronDown className="w-5 h-5" />
+        </motion.button>
+      )}
     </div>
   );
 }

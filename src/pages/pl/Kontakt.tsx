@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Spline from '@splinetool/react-spline';
-import { Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import ContactForm from '../../components/ContactForm';
@@ -42,59 +42,19 @@ function Kontakt() {
 
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <motion.a
-                href="https://facebook.com/neuralai"
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="border border-white/20 p-8 rounded-lg hover:border-white transition-all duration-300 flex items-center justify-center space-x-4 group"
-              >
-                <Facebook className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-              </motion.a>
-
-              <motion.a
-                href="https://x.com/neuralai"
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="border border-white/20 p-8 rounded-lg hover:border-white transition-all duration-300 flex items-center justify-center space-x-4 group"
-              >
-                <Twitter className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-              </motion.a>
-
-              <motion.a
-                href="https://linkedin.com/company/neuralai"
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="border border-white/20 p-8 rounded-lg hover:border-white transition-all duration-300 flex items-center justify-center space-x-4 group"
-              >
-                <Linkedin className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-              </motion.a>
-
-              <motion.a
-                href="https://instagram.com/neuralai"
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="border border-white/20 p-8 rounded-lg hover:border-white transition-all duration-300 flex items-center justify-center space-x-4 group"
-              >
-                <Instagram className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
-              </motion.a>
-            </div>
+            <motion.a
+              href="https://wa.me/1234567890"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="border border-white/20 p-8 rounded-lg hover:border-white transition-all duration-300 flex items-center justify-center space-x-4 group"
+            >
+              <MessageSquare className="w-8 h-8 text-white group-hover:scale-110 transition-transform duration-300" />
+              <span className="text-xl font-bold">Porozmawiaj z nami na WhatsApp</span>
+            </motion.a>
           </div>
         </section>
 

@@ -11,11 +11,10 @@ function Header() {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const isPolish = i18n.language === 'pl';
-  const basePath = isPolish ? '/główna' : '/main';
-  
-  const getLocalizedPath = (path: string) => {
-    const routes: { [key: string]: { en: string; pl: string } } = {
+  const isPolish = i18n.language === 'pl' || location.pathname.includes('główna');
+
+  const getLocalizedPath = (currentPath: string, targetLanguage: 'en' | 'pl') => {
+    const pathMappings: { [key: string]: { en: string; pl: string } } = {
       'about': { en: '/main/about', pl: '/główna/o-nas' },
       'services': { en: '/main/services', pl: '/główna/usługi' },
       'contact': { en: '/main/contact', pl: '/główna/kontakt' },
@@ -31,22 +30,40 @@ function Header() {
       'services/digital-marketing': { en: '/main/services/digital-marketing', pl: '/główna/usługi/marketing-cyfrowy' }
     };
 
-    for (const [key, value] of Object.entries(routes)) {
-      if (path.includes(key)) {
-        return value[isPolish ? 'pl' : 'en'];
+    // Handle root paths
+    if (currentPath === '/główna' || currentPath === '/main') {
+      return targetLanguage === 'en' ? '/main' : '/główna';
+    }
+
+    // Remove leading /main/ or /główna/ to get the base path
+    const basePath = currentPath.replace(/^\/main\/|^\/główna\//, '');
+
+    // Find the matching path mapping
+    for (const [key, paths] of Object.entries(pathMappings)) {
+      if (basePath === key || basePath === paths.en.replace('/main/', '') || basePath === paths.pl.replace('/główna/', '')) {
+        return paths[targetLanguage];
       }
     }
-    return basePath;
+
+    // Default to root path if no match found
+    return targetLanguage === 'en' ? '/main' : '/główna';
   };
-  
+
+  const handleLanguageSwitch = (lng: string) => {
+    const currentPath = location.pathname;
+    const newPath = getLocalizedPath(currentPath, lng as 'en' | 'pl');
+    i18n.changeLanguage(lng);
+    navigate(newPath);
+  };
+
   const services = [
-    { name: t('nav.seeAll'), path: getLocalizedPath('services') },
-    { name: t('nav.aiChatbots'), path: getLocalizedPath('services/chatbots') },
-    { name: t('nav.phoneCallers'), path: getLocalizedPath('services/phone-callers') },
-    { name: t('nav.webDesign'), path: getLocalizedPath('services/web-design') },
-    { name: t('nav.customAI'), path: getLocalizedPath('services/custom-ai') },
-    { name: t('nav.contentCreation'), path: getLocalizedPath('services/content-creation') },
-    { name: t('nav.digitalMarketing'), path: getLocalizedPath('services/digital-marketing') }
+    { name: t('nav.seeAll'), path: getLocalizedPath('services', isPolish ? 'pl' : 'en') },
+    { name: t('nav.aiChatbots'), path: getLocalizedPath('services/chatbots', isPolish ? 'pl' : 'en') },
+    { name: t('nav.phoneCallers'), path: getLocalizedPath('services/phone-callers', isPolish ? 'pl' : 'en') },
+    { name: t('nav.webDesign'), path: getLocalizedPath('services/web-design', isPolish ? 'pl' : 'en') },
+    { name: t('nav.customAI'), path: getLocalizedPath('services/custom-ai', isPolish ? 'pl' : 'en') },
+    { name: t('nav.contentCreation'), path: getLocalizedPath('services/content-creation', isPolish ? 'pl' : 'en') },
+    { name: t('nav.digitalMarketing'), path: getLocalizedPath('services/digital-marketing', isPolish ? 'pl' : 'en') }
   ];
 
   const handleLinkClick = () => {
@@ -55,26 +72,11 @@ function Header() {
     window.scrollTo(0, 0);
   };
 
-  const handleLanguageSwitch = (lng: string) => {
-    const currentPath = location.pathname;
-    const isCurrentlyPolish = currentPath.includes('główna');
-    let newPath = currentPath;
-
-    if (lng === 'pl' && !isCurrentlyPolish) {
-      newPath = currentPath.replace('/main', '/główna');
-    } else if (lng === 'en' && isCurrentlyPolish) {
-      newPath = currentPath.replace('/główna', '/main');
-    }
-
-    i18n.changeLanguage(lng);
-    navigate(newPath);
-  };
-
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link 
-          to={basePath}
+          to={isPolish ? '/główna' : '/main'}
           className="flex items-center space-x-3 frame-hover"
           onClick={() => window.scrollTo(0, 0)}
         >
@@ -118,7 +120,7 @@ function Header() {
             </button>
           </div>
 
-          <NavLink to={getLocalizedPath('about')} active={location.pathname.includes('about') || location.pathname.includes('o-nas')}>
+          <NavLink to={getLocalizedPath('about', isPolish ? 'pl' : 'en')} active={location.pathname.includes('about') || location.pathname.includes('o-nas')}>
             {t('nav.about')}
           </NavLink>
           
@@ -149,18 +151,18 @@ function Header() {
             )}
           </div>
 
-          <NavLink to={getLocalizedPath('contact')} active={location.pathname.includes('contact') || location.pathname.includes('kontakt')}>
+          <NavLink to={getLocalizedPath('contact', isPolish ? 'pl' : 'en')} active={location.pathname.includes('contact') || location.pathname.includes('kontakt')}>
             {t('nav.contact')}
           </NavLink>
           
           {isAuthenticated && (
-            <NavLink to={getLocalizedPath('account')} active={location.pathname.includes('account') || location.pathname.includes('konto')}>
+            <NavLink to={getLocalizedPath('account', isPolish ? 'pl' : 'en')} active={location.pathname.includes('account') || location.pathname.includes('konto')}>
               {t('nav.account')}
             </NavLink>
           )}
           
           <Link
-            to={isAuthenticated ? getLocalizedPath('dashboard') : getLocalizedPath('get-started')}
+            to={isAuthenticated ? getLocalizedPath('dashboard', isPolish ? 'pl' : 'en') : getLocalizedPath('get-started', isPolish ? 'pl' : 'en')}
             className="px-6 py-2 rounded-full border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300 frame-hover"
             onClick={() => window.scrollTo(0, 0)}
           >
@@ -200,7 +202,7 @@ function Header() {
               </div>
 
               <Link
-                to={getLocalizedPath('about')}
+                to={getLocalizedPath('about', isPolish ? 'pl' : 'en')}
                 className="block px-4 py-2 text-gray-400 hover:text-white"
                 onClick={handleLinkClick}
               >
@@ -233,7 +235,7 @@ function Header() {
               </div>
 
               <Link
-                to={getLocalizedPath('contact')}
+                to={getLocalizedPath('contact', isPolish ? 'pl' : 'en')}
                 className="block px-4 py-2 text-gray-400 hover:text-white"
                 onClick={handleLinkClick}
               >
@@ -242,7 +244,7 @@ function Header() {
               
               {isAuthenticated && (
                 <Link
-                  to={getLocalizedPath('account')}
+                  to={getLocalizedPath('account', isPolish ? 'pl' : 'en')}
                   className="block px-4 py-2 text-gray-400 hover:text-white"
                   onClick={handleLinkClick}
                 >
@@ -251,7 +253,7 @@ function Header() {
               )}
               
               <Link
-                to={isAuthenticated ? getLocalizedPath('dashboard') : getLocalizedPath('get-started')}
+                to={isAuthenticated ? getLocalizedPath('dashboard', isPolish ? 'pl' : 'en') : getLocalizedPath('get-started', isPolish ? 'pl' : 'en')}
                 className="block px-4 py-2 text-white font-bold hover:bg-white/10"
                 onClick={handleLinkClick}
               >

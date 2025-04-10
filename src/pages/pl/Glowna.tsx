@@ -103,7 +103,7 @@ function Glowna() {
               className="z-10 flex flex-col items-center lg:items-start justify-center text-center lg:text-left"
             >
               <h1 className="text-4xl md:text-7xl font-bold mb-4 tracking-wider text-white">
-                Przyciągamy Uwagę.<br />Zyskujesz Klientów.
+                Pozyskaj Klientów.<br />Wywołując Uwagę.<br /> Gwarantowane.
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-400">
                 Przekształć swoją firmę dzięki najnowocześniejszym rozwiązaniom AI, które przynoszą realne rezultaty. 

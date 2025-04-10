@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Twitter, Linkedin, Mail, MapPin, Phone, Instagram } from 'lucide-react';
+import { Mail, MapPin, Phone } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 function Footer() {
@@ -124,17 +124,6 @@ function Footer() {
               <div className="flex items-center justify-center md:justify-start space-x-3 text-gray-400">
                 <MapPin className="w-5 h-5 text-white" />
                 <span>123 AI Boulevard, Tech District</span>
-              </div>
-              <div className="flex justify-center md:justify-start space-x-4 pt-4">
-                <a href="https://www.instagram.com/neuralaiautomation/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-colors">
-                  <Instagram className="w-5 h-5" />
-                </a>
-                <a href="https://x.com/neauralai" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 transition-colors">
-                  <Twitter className="w-5 h-5" />
-                </a>
-                <a href="#" className="text-white hover:text-white/80 transition-colors">
-                  <Linkedin className="w-5 h-5" />
-                </a>
               </div>
             </div>
           </div>
