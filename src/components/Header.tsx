@@ -78,7 +78,7 @@ function Header() {
           className="flex items-center space-x-3 frame-hover"
           onClick={() => window.scrollTo(0, 0)}
         >
-          <img src="/BANNERBLACK.jpg" alt="Neural AI" className="h-10" />
+          <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/ChatGPT_Image_Apr_8__2025__08_04_13_PM-modified-removebg-preview.png" alt="Neural AI" className="h-10" />
         </Link>
         
         {/* Mobile Menu Button */}
