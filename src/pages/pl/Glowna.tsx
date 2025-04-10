@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight } from 'lucide-react';
+import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -54,8 +54,38 @@ const services = [
   }
 ];
 
+const differentiators = [
+  {
+    icon: <Shield className="w-12 h-12 text-[#f000000] group-hover:scale-110 transition-transform duration-300" />,
+    title: 'GWARANCJA',
+    description: 'Wygrywamy tylko wtedy, gdy Ty wygrywasz. To podstawa dobrego partnerstwa. Nie ponosisz całego ryzyka, dzielimy się nim.'
+  },
+  {
+    icon: <Target className="w-12 h-12 text-[#f000000] group-hover:scale-110 transition-transform duration-300" />,
+    title: 'REZULTATY',
+    description: 'Naszym priorytetem jest osiąganie wyników. Mniej gadania, więcej działania.'
+  },
+  {
+    icon: <Award className="w-12 h-12 text-[#f000000] group-hover:scale-110 transition-transform duration-300" />,
+    title: 'DOŚWIADCZENIE',
+    description: 'Nasz zespół łączy dekady doświadczenia w marketingu z najnowocześniejszą technologią AI.'
+  },
+  {
+    icon: <Eye className="w-12 h-12 text-[#f000000] group-hover:scale-110 transition-transform duration-300" />,
+    title: 'PRZEJRZYSTOŚĆ',
+    description: 'Jasna komunikacja, szczegółowe raporty i brak ukrytych opłat. Zawsze wiesz, gdzie trafia Twoja inwestycja.'
+  }
+];
+
 function Glowna() {
   const { isAuthenticated } = useAuth();
+
+  const scrollToContact = () => {
+    const contactSection = document.getElementById('contact-section');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col overflow-x-hidden">
@@ -65,12 +95,12 @@ function Glowna() {
       <main className="flex-grow">
         {/* Hero Section */}
         <section className="relative min-h-[calc(100vh-80px)] flex items-center px-4 py-20">
-          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1 }}
-              className="z-10"
+              className="z-10 flex flex-col items-center lg:items-start justify-center text-center lg:text-left"
             >
               <h1 className="text-4xl md:text-7xl font-bold mb-4 tracking-wider text-white">
                 Przyciągamy Uwagę.<br />Zyskujesz Klientów.
@@ -79,13 +109,12 @@ function Glowna() {
                 Przekształć swoją firmę dzięki najnowocześniejszym rozwiązaniom AI, które przynoszą realne rezultaty. 
                 Wyróżnij się w cyfrowym świecie i obserwuj, jak Twój rozwój przyspiesza.
               </p>
-              <Link 
-                to={isAuthenticated ? "/główna/panel" : "/główna/rozpocznij"}
+              <button 
+                onClick={scrollToContact}
                 className="px-8 py-3 rounded-full border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300"
-                onClick={() => window.scrollTo(0, 0)}
               >
-                ROZPOCZNIJ
-              </Link>
+                Tak, chcę tego!
+              </button>
             </motion.div>
             <div className="h-[500px] w-full">
               <Spline scene="https://prod.spline.design/di-MaYwy3xhfsS0H/scene.splinecode" />
@@ -93,7 +122,7 @@ function Glowna() {
           </div>
         </section>
 
-        {/* About Section */}
+        {/* Marketing Challenges Section */}
         <section className="py-20 px-4">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -102,29 +131,103 @@ function Glowna() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-7xl font-bold mb-8 tracking-wider text-white">O NEURAL AI</h2>
-              <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-8">
-                Nie jesteśmy kolejną agencją marketingową. Jesteśmy pionierami w rozwiązaniach 
-                marketingowych opartych na AI, które przynoszą wymierne rezultaty. Nasze podejście 
-                łączy najnowocześniejszą sztuczną inteligencję ze sprawdzonymi strategiami 
-                marketingowymi, aby pomóc firmom rozwijać się w erze cyfrowej.
+              <h2 className="text-4xl md:text-6xl font-bold mb-8 text-center">Marketing jest ważny...</h2>
+              <p className="text-xl text-gray-400 text-center mb-12">
+                Jednak na Twojej liście jest już 101 rzeczy do zrobienia.<br />
+                I wszystkie są ważne!
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  to="/główna/o-nas"
-                  className="px-8 py-3 bg-white text-black rounded-full hover:bg-white/90 transition-all duration-300"
-                  onClick={() => window.scrollTo(0, 0)}
-                >
-                  Dowiedz się więcej o nas
-                </Link>
-                <Link
-                  to="/główna/kontakt"
-                  className="px-8 py-3 border border-white text-white rounded-full hover:bg-white hover:text-black transition-all duration-300"
-                  onClick={() => window.scrollTo(0, 0)}
-                >
-                  Kontakt
-                </Link>
+              <h3 className="text-3xl md:text-5xl font-bold text-center mb-16">
+                Jak więc najlepiej<br />wykorzystać marketing?
+              </h3>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="border border-white/20 p-8 rounded-lg text-center group hover:border-white/40 transition-all duration-300">
+                  <div className="mb-6 flex justify-center">
+                    <UserX className="w-16 h-16 text-white group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <h4 className="text-xl font-bold mb-4">ZROBIĆ WSZYSTKO SAMEMU?</h4>
+                  <p className="text-gray-400">
+                    Jeśli masz mało do zrobienia, to nie problem.<br />
+                    Jednak jeśli jesteś zajęty... to nie jest wykonalne.
+                  </p>
+                </div>
+
+                <div className="border border-white/20 p-8 rounded-lg text-center group hover:border-white/40 transition-all duration-300">
+                  <div className="mb-6 flex justify-center">
+                    <Users className="w-16 h-16 text-white group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <h4 className="text-xl font-bold mb-4">ZATRUDNIĆ NOWYCH PRACOWNIKÓW?</h4>
+                  <p className="text-gray-400">
+                    Znalezienie dobrych ludzi jest trudne, szkolenie jest kosztowne.<br />
+                    Nawet jeśli znajdziesz idealną osobę... nadal polegasz na jednej osobie.
+                  </p>
+                </div>
+
+                <div className="border border-white/20 p-8 rounded-lg text-center group hover:border-white/40 transition-all duration-300">
+                  <div className="mb-6 flex justify-center">
+                    <Building2 className="w-16 h-16 text-white group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <h4 className="text-xl font-bold mb-4">ZATRUDNIĆ AGENCJĘ?</h4>
+                  <p className="text-gray-400">
+                    Nie masz budżetu marketingowego w wysokości dziesiątek tysięcy euro miesięcznie? Cóż, wtedy Twoim kontem często zajmuje się stażysta asystenta asystenta. Nieidealne rozwiązanie.
+                  </p>
+                </div>
               </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* What Makes Us Different Section */}
+        <section className="py-20 px-4 border-t border-gray-800">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-16 text-center">OK... Ale co Was wyróżnia?</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {differentiators.map((diff, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="border border-white/20 p-8 rounded-lg hover:border-white/40 transition-all duration-300 group"
+                  >
+                    <div className="flex items-center gap-4 mb-4">
+                      {diff.icon}
+                      <h3 className="text-2xl font-bold">{diff.title}</h3>
+                    </div>
+                    <p className="text-gray-400">{diff.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Let's Build The Future Section with Contact Form */}
+        <section id="contact-section" className="py-20 px-4 border-t border-gray-800">
+          <div className="max-w-6xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-7xl font-bold mb-6 tracking-wider">ZBUDUJMY PRZYSZŁOŚĆ</h2>
+              <p className="text-xl mb-16">
+                Skontaktuj się z nami, aby dowiedzieć się więcej lub umówić się na{' '}
+                <span className="relative inline-block">
+                  <span className="text-green-400">Darmową</span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-green-400 to-transparent"></span>
+                </span>
+                {' '}Konsultację Marketingową
+              </p>
+              <ContactForm />
             </motion.div>
           </div>
         </section>
@@ -224,21 +327,6 @@ function Glowna() {
                   <img src="/3.png" alt="Giant Moto Referencja 2" className="w-full rounded-lg shadow-lg" />
                 </div>
               </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section className="py-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl md:text-7xl font-bold mb-8 tracking-wider text-white">ZBUDUJMY PRZYSZŁOŚĆ</h2>
-              <ContactForm />
             </motion.div>
           </div>
         </section>
