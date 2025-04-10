@@ -80,6 +80,7 @@ const differentiators = [
 function App() {
   const { isAuthenticated } = useAuth();
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [hasPassedTestimonial, setHasPassedTestimonial] = useState(false);
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact-section');
@@ -100,7 +101,11 @@ function App() {
       const testimonialSection = document.getElementById('testimonial-section');
       if (testimonialSection) {
         const rect = testimonialSection.getBoundingClientRect();
-        setShowScrollButton(rect.top <= window.innerHeight);
+        const hasEntered = rect.top <= window.innerHeight;
+        const hasPassed = rect.bottom <= 0;
+        
+        setShowScrollButton(hasEntered && !hasPassed);
+        setHasPassedTestimonial(hasPassed);
       }
     };
 
@@ -130,27 +135,10 @@ function App() {
                   <svg className="absolute -z-10 opacity-20" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <path d="M0,50 L100,0 L100,100 Z" fill="url(#graph-gradient)" />
                   </svg>
-                  <defs>
-                    <linearGradient id="graph-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#4facfe" />
-                      <stop offset="100%" stopColor="#00f7ff" />
-                    </linearGradient>
-                  </defs>
                 </span>
                 Clients<br />By 
-                <span className="relative inline-block mx-2">
+                <span className="burning-text relative inline-block mx-2">
                   Igniting
-                  <motion.div
-                    className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-yellow-500 opacity-30 blur-lg"
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.3, 0.5, 0.3]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity
-                    }}
-                  />
                 </span>
                 Attention.<br />
                 <span className="relative inline-block">
@@ -160,7 +148,7 @@ function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.2 }}
                   >
-                    <Shield className="w-full h-full text-white opacity-30" />
+                    <Eye className="w-full h-full text-white opacity-65" />
                   </motion.div>
                 </span>
               </h1>
@@ -268,93 +256,7 @@ function App() {
           </div>
         </section>
 
-        {/* Let's Build The Future Section with Contact Form */}
-        <section id="contact-section" className="py-20 px-4 border-t border-gray-800">
-          <div className="max-w-6xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-4xl md:text-7xl font-bold mb-6 tracking-wider">LET'S BUILD THE FUTURE</h2>
-              <p className="text-xl mb-16">
-                Contact Us to Get to Know More, or to get a{' '}
-                <span className="relative inline-block">
-                  <span className="text-green-400">Free</span>
-                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-green-400 to-transparent"></span>
-                </span>
-                {' '}Marketing Consultation
-              </p>
-              <ContactForm />
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Services Section */}
-        <section className="py-20 px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-7xl font-bold text-center mb-16 tracking-wider text-white">OUR SERVICES</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {services
-                .filter(service => service.size === 'large')
-                .map((service, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="border border-white p-8 rounded-lg hover:border-white transition-all duration-300 group"
-                  >
-                    <div className="mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                      {service.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
-                    <p className="text-gray-400 mb-6">{service.description}</p>
-                    <Link 
-                      to={service.link}
-                      className="inline-flex items-center text-white hover:text-[#4facfe] transition-colors"
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      Learn more
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Link>
-                  </motion.div>
-                ))}
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-              {services
-                .filter(service => service.size === 'small')
-                .map((service, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="border border-white p-6 rounded-lg hover:border-white transition-all duration-300 group"
-                  >
-                    <div className="mb-4 text-white group-hover:scale-110 transition-transform duration-300">
-                      {service.icon}
-                    </div>
-                    <h3 className="text-xl font-bold mb-4">{service.title}</h3>
-                    <p className="text-gray-400 mb-6">{service.description}</p>
-                    <Link 
-                      to={service.link}
-                      className="inline-flex items-center text-white hover:text-[#4facfe] transition-colors"
-                      onClick={() => window.scrollTo(0, 0)}
-                    >
-                      Learn more
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </Link>
-                  </motion.div>
-                ))}
-            </div>
-          </div>
-        </section>
-
-                {/* Services Quick Delivery Section */}
+        {/* Services Quick Delivery Section */}
         <section className="py-12 px-4 bg-gradient-to-r from-black to-gray-900">
           <div className="max-w-4xl mx-auto text-center">
             <motion.p
@@ -365,11 +267,8 @@ function App() {
               className="text-xl text-gray-300"
             >
               Experience lightning-fast delivery - from AI Chatbots to Custom Solutions, we deliver in just 
-              <span className="relative inline-block mx-2">
-                <span className="text-yellow-400">quickly</span>
-                <svg className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path d="M13 10V3L4 14h7v7l9-11h-7z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <span className="lightning-text relative inline-block mx-2">
+                quickly
               </span>
               - often within 1 hour to 3 days!
             </motion.p>
@@ -424,7 +323,7 @@ function App() {
               <h2 className="text-4xl md:text-6xl font-bold mb-8">
                 Don't overthink it.<br />
                 Take action, transform your business.<br />
-                <span className="text-[#4facfe]">Guaranteed.</span>
+                <span className="shield-bg relative inline-block">Guaranteed.</span>
               </h2>
               <button
                 onClick={scrollToContact}
@@ -440,13 +339,13 @@ function App() {
       <Footer />
 
       {/* Scroll Down Button */}
-      {showScrollButton && (
+      {showScrollButton && !hasPassedTestimonial && (
         <motion.button
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           onClick={scrollToBottom}
-          className="fixed bottom-8 right-8 bg-white text-black px-6 py-3 rounded-full font-bold flex items-center space-x-2 hover:bg-opacity-90 transition-all duration-300 z-50"
+          className="scroll-button"
         >
           <span>Scroll down</span>
           <ChevronDown className="w-5 h-5" />
