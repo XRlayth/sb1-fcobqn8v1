@@ -94,61 +94,49 @@
     z-index: -1;
   }
 
-  /* Lightning strike animation */
+  /* Lightning text effect */
   .lightning-text {
     position: relative;
     color: white;
+    text-shadow: 0 0 10px #00f7ff,
+                 0 0 20px #00f7ff,
+                 0 0 30px #00f7ff;
+    animation: lightning-pulse 2s infinite;
   }
 
-  .lightning-text::before {
-    content: '';
-    position: absolute;
-    top: -200%;
-    left: 50%;
-    width: 4px;
-    height: 200%;
-    background: linear-gradient(to bottom, transparent, white);
-    transform: translateX(-50%);
-    animation: lightning-strike 4s;
-    animation-fill-mode: forwards;
-  }
-
+  .lightning-text::before,
   .lightning-text::after {
     content: '';
     position: absolute;
-    inset: -20px;
-    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
-    opacity: 0;
-    animation: lightning-flash 4s;
-    animation-fill-mode: forwards;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent 45%, #00f7ff 49%, white 50%, #00f7ff 51%, transparent 55%);
+    background-size: 300% 300%;
+    animation: lightning-move 2s infinite linear;
+    opacity: 0.5;
+    z-index: -1;
   }
 
-  @keyframes lightning-strike {
-    0%, 100% { 
-      height: 0;
-      opacity: 0;
-    }
-    48% {
-      height: 0;
-      opacity: 0;
+  .lightning-text::after {
+    animation-delay: -1s;
+  }
+
+  @keyframes lightning-pulse {
+    0%, 100% {
+      text-shadow: 0 0 10px #00f7ff,
+                   0 0 20px #00f7ff,
+                   0 0 30px #00f7ff;
     }
     50% {
-      height: 200%;
-      opacity: 1;
-    }
-    52% {
-      height: 0;
-      opacity: 0;
+      text-shadow: 0 0 20px #00f7ff,
+                   0 0 40px #00f7ff,
+                   0 0 60px #00f7ff;
     }
   }
 
-  @keyframes lightning-flash {
-    0%, 48%, 52%, 100% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
+  @keyframes lightning-move {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
   }
 
   /* Custom cursor styles */
@@ -223,8 +211,8 @@
 }
 
 /* Make cursor glow visible on all pages */
-body {
-  cursor: none !important;
+* {
+  cursor: default !important;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

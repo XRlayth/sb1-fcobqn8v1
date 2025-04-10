@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
@@ -9,8 +9,17 @@ function Header() {
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isAIServicesOpen, setIsAIServicesOpen] = useState(false);
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+
+  // Set English as default language
+  useEffect(() => {
+    if (!i18n.language) {
+      i18n.changeLanguage('en');
+    }
+  }, [i18n]);
+
   const isPolish = i18n.language === 'pl' || location.pathname.includes('główna');
 
   const getLocalizedPath = (currentPath: string, targetLanguage: 'en' | 'pl') => {
@@ -35,7 +44,7 @@ function Header() {
       return targetLanguage === 'en' ? '/main' : '/główna';
     }
 
-    // Remove leading /main/ or /główna/ to get the base path
+    // Extract the path without language prefix
     const basePath = currentPath.replace(/^\/main\/|^\/główna\//, '');
 
     // Find the matching path mapping
@@ -45,7 +54,13 @@ function Header() {
       }
     }
 
-    // Default to root path if no match found
+    // If no match found, try to map the current path structure
+    const pathParts = currentPath.split('/');
+    if (pathParts.length > 2) {
+      const newPath = targetLanguage === 'en' ? '/main' : '/główna';
+      return newPath + '/' + pathParts.slice(2).join('/');
+    }
+
     return targetLanguage === 'en' ? '/main' : '/główna';
   };
 
@@ -56,12 +71,14 @@ function Header() {
     navigate(newPath);
   };
 
-  const services = [
-    { name: t('nav.seeAll'), path: getLocalizedPath('services', isPolish ? 'pl' : 'en') },
+  const aiServices = [
     { name: t('nav.aiChatbots'), path: getLocalizedPath('services/chatbots', isPolish ? 'pl' : 'en') },
     { name: t('nav.phoneCallers'), path: getLocalizedPath('services/phone-callers', isPolish ? 'pl' : 'en') },
-    { name: t('nav.webDesign'), path: getLocalizedPath('services/web-design', isPolish ? 'pl' : 'en') },
     { name: t('nav.customAI'), path: getLocalizedPath('services/custom-ai', isPolish ? 'pl' : 'en') },
+  ];
+
+  const otherServices = [
+    { name: t('nav.webDesign'), path: getLocalizedPath('services/web-design', isPolish ? 'pl' : 'en') },
     { name: t('nav.contentCreation'), path: getLocalizedPath('services/content-creation', isPolish ? 'pl' : 'en') },
     { name: t('nav.digitalMarketing'), path: getLocalizedPath('services/digital-marketing', isPolish ? 'pl' : 'en') }
   ];
@@ -69,6 +86,7 @@ function Header() {
   const handleLinkClick = () => {
     setIsMenuOpen(false);
     setIsServicesOpen(false);
+    setIsAIServicesOpen(false);
     window.scrollTo(0, 0);
   };
 
@@ -80,7 +98,7 @@ function Header() {
           className="flex items-center space-x-3 frame-hover"
           onClick={() => window.scrollTo(0, 0)}
         >
-          <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/ChatGPT_Image_Apr_8__2025__08_04_13_PM-modified-removebg-preview.png" alt="Neural AI" className="h-10" />
+          <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/ezgif-45c5a8b8b61521.png" alt="Neural AI" className="h-16" />
         </Link>
         
         {/* Mobile Menu Button */}
@@ -120,11 +138,7 @@ function Header() {
             </button>
           </div>
 
-          <NavLink to={getLocalizedPath('about', isPolish ? 'pl' : 'en')} active={location.pathname.includes('about') || location.pathname.includes('o-nas')}>
-            {t('nav.about')}
-          </NavLink>
-          
-          <div className="relative">
+          <div className="relative group">
             <button
               className={`text-sm font-medium transition-colors duration-300 flex items-center space-x-1 frame-hover ${
                 location.pathname.includes('services') || location.pathname.includes('usługi') ? 'text-white' : 'text-gray-400 hover:text-white'
@@ -137,7 +151,46 @@ function Header() {
             
             {isServicesOpen && (
               <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-gray-800 rounded-lg shadow-xl py-2">
-                {services.map((service) => (
+                <Link
+                  to={getLocalizedPath('services', isPolish ? 'pl' : 'en')}
+                  className="block px-4 py-2 text-sm text-gray-400 hover:text-white frame-hover"
+                  onClick={handleLinkClick}
+                >
+                  {t('nav.seeAll')}
+                </Link>
+                
+                <div className="relative group/ai">
+                  <Link
+                    to={getLocalizedPath('services', isPolish ? 'pl' : 'en')}
+                    className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-white frame-hover flex items-center justify-between"
+                    onMouseEnter={() => setIsAIServicesOpen(true)}
+                    onMouseLeave={() => setIsAIServicesOpen(false)}
+                  >
+                    AI Services
+                    <ChevronDown className="w-4 h-4" />
+                  </Link>
+                  
+                  {isAIServicesOpen && (
+                    <div
+                      className="absolute left-full top-0 w-48 bg-black border border-gray-800 rounded-lg shadow-xl py-2 ml-2"
+                      onMouseEnter={() => setIsAIServicesOpen(true)}
+                      onMouseLeave={() => setIsAIServicesOpen(false)}
+                    >
+                      {aiServices.map((service) => (
+                        <Link
+                          key={service.path}
+                          to={service.path}
+                          className="block px-4 py-2 text-sm text-gray-400 hover:text-white frame-hover"
+                          onClick={handleLinkClick}
+                        >
+                          {service.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                {otherServices.map((service) => (
                   <Link
                     key={service.path}
                     to={service.path}
@@ -153,6 +206,10 @@ function Header() {
 
           <NavLink to={getLocalizedPath('contact', isPolish ? 'pl' : 'en')} active={location.pathname.includes('contact') || location.pathname.includes('kontakt')}>
             {t('nav.contact')}
+          </NavLink>
+
+          <NavLink to={getLocalizedPath('about', isPolish ? 'pl' : 'en')} active={location.pathname.includes('about') || location.pathname.includes('o-nas')}>
+            {t('nav.about')}
           </NavLink>
           
           {isAuthenticated && (
@@ -201,14 +258,6 @@ function Header() {
                 </button>
               </div>
 
-              <Link
-                to={getLocalizedPath('about', isPolish ? 'pl' : 'en')}
-                className="block px-4 py-2 text-gray-400 hover:text-white"
-                onClick={handleLinkClick}
-              >
-                {t('nav.about')}
-              </Link>
-              
               <div>
                 <button
                   className="w-full px-4 py-2 text-left text-gray-400 hover:text-white flex items-center justify-between"
@@ -220,7 +269,38 @@ function Header() {
                 
                 {isServicesOpen && (
                   <div className="pl-8 space-y-2 mt-2">
-                    {services.map((service) => (
+                    <Link
+                      to={getLocalizedPath('services', isPolish ? 'pl' : 'en')}
+                      className="block px-4 py-2 text-sm text-gray-400 hover:text-white"
+                      onClick={handleLinkClick}
+                    >
+                      {t('nav.seeAll')}
+                    </Link>
+                    
+                    <button
+                      className="w-full px-4 py-2 text-left text-gray-400 hover:text-white flex items-center justify-between"
+                      onClick={() => setIsAIServicesOpen(!isAIServicesOpen)}
+                    >
+                      <span>AI Services</span>
+                      <ChevronDown className={`w-4 h-4 transform transition-transform ${isAIServicesOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    
+                    {isAIServicesOpen && (
+                      <div className="pl-4 space-y-2">
+                        {aiServices.map((service) => (
+                          <Link
+                            key={service.path}
+                            to={service.path}
+                            className="block px-4 py-2 text-sm text-gray-400 hover:text-white"
+                            onClick={handleLinkClick}
+                          >
+                            {service.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {otherServices.map((service) => (
                       <Link
                         key={service.path}
                         to={service.path}
@@ -240,6 +320,14 @@ function Header() {
                 onClick={handleLinkClick}
               >
                 {t('nav.contact')}
+              </Link>
+
+              <Link
+                to={getLocalizedPath('about', isPolish ? 'pl' : 'en')}
+                className="block px-4 py-2 text-gray-400 hover:text-white"
+                onClick={handleLinkClick}
+              >
+                {t('nav.about')}
               </Link>
               
               {isAuthenticated && (

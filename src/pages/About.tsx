@@ -19,10 +19,11 @@ function About() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-7xl font-bold mb-8 tracking-wider text-white">ABOUT NEURAL AI</h1>
+              <h1 className="text-7xl font-bold mb-8 tracking-wider text-white">ABOUT NEURAL ATTENTION <span className="burning-text">IGNITION</span> AGENCY</h1>
               <p className="text-xl text-gray-400 leading-relaxed mb-8">
                 We're a next-generation marketing agency that harnesses the power of AI to transform 
-                how businesses connect with their audience and drive growth.
+                how businesses connect with their audience and drive growth. We serve our clients <span className="lightning-text">quickly</span>, 
+                often delivering results within hours.
               </p>
             </motion.div>
           </div>
@@ -97,15 +98,10 @@ function About() {
             >
               <h2 className="text-4xl font-bold mb-8">Our Story</h2>
               <p className="text-lg text-gray-400 leading-relaxed mb-12">
-                Founded in 2024, Neural AI emerged from a simple yet powerful observation: traditional 
+                Founded in 2024, Neural Attention Ignition Agency emerged from a simple yet powerful observation: traditional 
                 marketing agencies weren't keeping pace with technological advancement. We saw an 
                 opportunity to revolutionize the industry by integrating artificial intelligence into 
                 every aspect of digital marketing.
-                <br /><br />
-                Our team combines seasoned marketing professionals with AI specialists, creating a 
-                unique blend of expertise that drives unprecedented results for our clients. We've 
-                developed proprietary AI algorithms that analyze market trends, predict consumer 
-                behavior, and optimize marketing strategies in real-time.
                 <br /><br />
                 Today, we're proud to serve clients across various industries, from startups to 
                 enterprise-level businesses, helping them achieve their growth objectives through 
