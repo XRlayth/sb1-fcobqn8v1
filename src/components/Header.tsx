@@ -22,46 +22,79 @@ function Header() {
 
   const isPolish = i18n.language === 'pl' || location.pathname.includes('główna');
 
-  const getLocalizedPath = (currentPath: string, targetLanguage: 'en' | 'pl') => {
-    const pathMappings: { [key: string]: { en: string; pl: string } } = {
-      'about': { en: '/main/about', pl: '/główna/o-nas' },
-      'services': { en: '/main/services', pl: '/główna/usługi' },
-      'contact': { en: '/main/contact', pl: '/główna/kontakt' },
-      'get-started': { en: '/main/get-started', pl: '/główna/rozpocznij' },
-      'dashboard': { en: '/main/dashboard', pl: '/główna/panel' },
-      'account': { en: '/main/account', pl: '/główna/konto' },
-      'reset-password': { en: '/main/reset-password', pl: '/główna/reset-hasła' },
-      'services/chatbots': { en: '/main/services/chatbots', pl: '/główna/usługi/chatboty' },
-      'services/phone-callers': { en: '/main/services/phone-callers', pl: '/główna/usługi/automatyzacja-połączeń' },
-      'services/web-design': { en: '/main/services/web-design', pl: '/główna/usługi/projektowanie-stron' },
-      'services/custom-ai': { en: '/main/services/custom-ai', pl: '/główna/usługi/rozwiązania-ai' },
-      'services/content-creation': { en: '/main/services/content-creation', pl: '/główna/usługi/tworzenie-treści' },
-      'services/digital-marketing': { en: '/main/services/digital-marketing', pl: '/główna/usługi/marketing-cyfrowy' }
-    };
+  const pathMappings = {
+    'about': { en: '/main/about', pl: '/główna/o-nas' },
+    'services': { en: '/main/services', pl: '/główna/usługi' },
+    'contact': { en: '/main/contact', pl: '/główna/kontakt' },
+    'get-started': { en: '/main/get-started', pl: '/główna/rozpocznij' },
+    'dashboard': { en: '/main/dashboard', pl: '/główna/panel' },
+    'account': { en: '/main/account', pl: '/główna/konto' },
+    'reset-password': { en: '/main/reset-password', pl: '/główna/reset-hasła' },
+    'services/chatbots': { en: '/main/services/chatbots', pl: '/główna/usługi/chatboty' },
+    'services/phone-callers': { en: '/main/services/phone-callers', pl: '/główna/usługi/automatyzacja-połączeń' },
+    'services/web-design': { en: '/main/services/web-design', pl: '/główna/usługi/projektowanie-stron' },
+    'services/custom-ai': { en: '/main/services/custom-ai', pl: '/główna/usługi/rozwiązania-ai' },
+    'services/content-creation': { en: '/main/services/content-creation', pl: '/główna/usługi/tworzenie-treści' },
+    'services/digital-marketing': { en: '/main/services/digital-marketing', pl: '/główna/usługi/marketing-cyfrowy' }
+  };
 
+  const getLocalizedPath = (currentPath: string, targetLanguage: 'en' | 'pl') => {
     // Handle root paths
     if (currentPath === '/główna' || currentPath === '/main') {
       return targetLanguage === 'en' ? '/main' : '/główna';
     }
 
-    // Extract the path without language prefix
-    const basePath = currentPath.replace(/^\/main\/|^\/główna\//, '');
+    // Remove language prefix and leading slash
+    const pathWithoutPrefix = currentPath.replace(/^\/główna\/|^\/main\//, '');
 
-    // Find the matching path mapping
+    // Find direct mapping
     for (const [key, paths] of Object.entries(pathMappings)) {
-      if (basePath === key || basePath === paths.en.replace('/main/', '') || basePath === paths.pl.replace('/główna/', '')) {
+      if (pathWithoutPrefix === key) {
         return paths[targetLanguage];
       }
     }
 
-    // If no match found, try to map the current path structure
-    const pathParts = currentPath.split('/');
-    if (pathParts.length > 2) {
-      const newPath = targetLanguage === 'en' ? '/main' : '/główna';
-      return newPath + '/' + pathParts.slice(2).join('/');
-    }
+    // Handle reverse mapping (from Polish to English paths)
+    const reverseMappings: { [key: string]: string } = {
+      'o-nas': 'about',
+      'usługi': 'services',
+      'kontakt': 'contact',
+      'rozpocznij': 'get-started',
+      'panel': 'dashboard',
+      'konto': 'account',
+      'reset-hasła': 'reset-password',
+      'chatboty': 'services/chatbots',
+      'automatyzacja-połączeń': 'services/phone-callers',
+      'projektowanie-stron': 'services/web-design',
+      'rozwiązania-ai': 'services/custom-ai',
+      'tworzenie-treści': 'services/content-creation',
+      'marketing-cyfrowy': 'services/digital-marketing'
+    };
 
-    return targetLanguage === 'en' ? '/main' : '/główna';
+    const englishMappings: { [key: string]: string } = {
+      'about': 'o-nas',
+      'services': 'usługi',
+      'contact': 'kontakt',
+      'get-started': 'rozpocznij',
+      'dashboard': 'panel',
+      'account': 'konto',
+      'reset-password': 'reset-hasła',
+      'services/chatbots': 'chatboty',
+      'services/phone-callers': 'automatyzacja-połączeń',
+      'services/web-design': 'projektowanie-stron',
+      'services/custom-ai': 'rozwiązania-ai',
+      'services/content-creation': 'tworzenie-treści',
+      'services/digital-marketing': 'marketing-cyfrowy'
+    };
+
+    // Convert path to appropriate language
+    if (targetLanguage === 'en') {
+      const englishPath = reverseMappings[pathWithoutPrefix];
+      return englishPath ? `/main/${englishPath}` : '/main';
+    } else {
+      const polishPath = englishMappings[pathWithoutPrefix];
+      return polishPath ? `/główna/${polishPath}` : '/główna';
+    }
   };
 
   const handleLanguageSwitch = (lng: string) => {

@@ -208,6 +208,40 @@
   .scroll-button.hidden {
     @apply opacity-0 pointer-events-none;
   }
+
+  /* Target icon design */
+  .group:hover .target-icon {
+    transform: scale(1.1);
+  }
+
+  .target-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .target-icon::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 8px 0 8px 16px;
+    border-color: transparent transparent transparent #ffffff;
+    transform: translateX(4px);
+    opacity: 0.8;
+  }
+
+  .target-icon::after {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
 }
 
 /* Make cursor glow visible on all pages */

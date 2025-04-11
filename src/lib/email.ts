@@ -7,6 +7,10 @@ export const sendEmail = async (formData: {
   email: string;
   service: string;
   message: string;
+  referralSource: string;
+  mainQuestion: string;
+  adSpend?: string;
+  website?: string;
   additionalInfo: string;
 }) => {
   try {
@@ -21,6 +25,12 @@ export const sendEmail = async (formData: {
             <p style="margin: 10px 0;"><strong>Name:</strong> ${formData.name}</p>
             <p style="margin: 10px 0;"><strong>Email:</strong> ${formData.email}</p>
             <p style="margin: 10px 0;"><strong>Service:</strong> ${formData.service}</p>
+            <p style="margin: 10px 0;"><strong>How did you find us?:</strong> ${formData.referralSource}</p>
+            <p style="margin: 10px 0;"><strong>Most Important Question:</strong> ${formData.mainQuestion}</p>
+            ${formData.service === 'Digital Marketing' ? `
+              <p style="margin: 10px 0;"><strong>Monthly Ad Spend (USD):</strong> ${formData.adSpend}</p>
+              <p style="margin: 10px 0;"><strong>Website:</strong> ${formData.website}</p>
+            ` : ''}
             <p style="margin: 10px 0;"><strong>Message:</strong> ${formData.message}</p>
             <p style="margin: 10px 0;"><strong>Additional Info:</strong> ${formData.additionalInfo || 'None provided'}</p>
           </div>

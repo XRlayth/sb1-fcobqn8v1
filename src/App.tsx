@@ -142,13 +142,13 @@ function App() {
                 </span>
                 Attention.<br />
                 <span className="relative inline-block">
-                  Guaranteed
+                  Guaranteed Results
                   <motion.div
                     className="absolute -inset-1 -z-10"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.2 }}
                   >
-                    <Eye className="w-full h-full text-white opacity-65" />
+                    <Shield className="w-full h-full text-white opacity-65" />
                   </motion.div>
                 </span>
               </h1>
@@ -256,22 +256,89 @@ function App() {
           </div>
         </section>
 
-        {/* Services Quick Delivery Section */}
-        <section className="py-12 px-4 bg-gradient-to-r from-black to-gray-900">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.p
+        {/* Let's Build The Future Section with Contact Form */}
+        <section id="contact-section" className="py-20 px-4 border-t border-gray-800">
+          <div className="max-w-6xl mx-auto text-center">
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-300"
             >
-              Experience lightning-fast delivery - from AI Chatbots to Custom Solutions, we deliver in just 
-              <span className="lightning-text relative inline-block mx-2">
-                quickly
-              </span>
-              - often within 1 hour to 3 days!
-            </motion.p>
+              <h2 className="text-4xl md:text-7xl font-bold mb-6 tracking-wider">LET'S BUILD THE FUTURE</h2>
+              <p className="text-xl mb-16">
+                Contact us to learn more or schedule a{' '}
+                <span className="relative inline-block">
+                  <span className="text-green-400">Free</span>
+                  <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-green-400 to-transparent"></span>
+                </span>
+                {' '}Marketing Consultation
+              </p>
+              <ContactForm />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl md:text-7xl font-bold text-center mb-16 tracking-wider text-white">OUR SERVICES</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {services
+                .filter(service => service.size === 'large')
+                .map((service, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="border border-white p-8 rounded-lg hover:border-white transition-all duration-300 group"
+                  >
+                    <div className="mb-4 text-white group-hover:scale-110 transition-transform duration-300">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
+                    <p className="text-gray-400 mb-6">{service.description}</p>
+                    <Link 
+                      to={service.link}
+                      className="inline-flex items-center text-white hover:text-[#4facfe] transition-colors"
+                      onClick={() => window.scrollTo(0, 0)}
+                    >
+                      Learn more
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </motion.div>
+                ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+              {services
+                .filter(service => service.size === 'small')
+                .map((service, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="border border-white p-6 rounded-lg hover:border-white transition-all duration-300 group"
+                  >
+                    <div className="mb-4 text-white group-hover:scale-110 transition-transform duration-300">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-4">{service.title}</h3>
+                    <p className="text-gray-400 mb-6">{service.description}</p>
+                    <Link 
+                      to={service.link}
+                      className="inline-flex items-center text-white hover:text-[#4facfe] transition-colors"
+                      onClick={() => window.scrollTo(0, 0)}
+                    >
+                      Learn more
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Link>
+                  </motion.div>
+                ))}
+            </div>
           </div>
         </section>
 
@@ -323,14 +390,30 @@ function App() {
               <h2 className="text-4xl md:text-6xl font-bold mb-8">
                 Don't overthink it.<br />
                 Take action, transform your business.<br />
-                <span className="shield-bg relative inline-block">Guaranteed.</span>
+                <span className="relative inline-block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+                  Guaranteed.
+                </span>
               </h2>
-              <button
-                onClick={scrollToContact}
-                className="px-8 py-4 bg-white text-black rounded-full text-xl font-bold hover:bg-opacity-90 transition-all duration-300"
-              >
-                Get in Touch
-              </button>
+              <div className="flex justify-center space-x-8 mb-8">
+                <Link
+                  to="/contact"
+                  className="px-8 py-4 bg-red-600 text-white rounded-full text-xl font-bold hover:bg-red-700 transition-all duration-300 transform hover:scale-105"
+                >
+                  Improve your business
+                </Link>
+                <a
+                  href="https://netflix.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-8 py-4 bg-blue-600 text-white rounded-full text-xl font-bold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
+                >
+                  Stay in comfort zone
+                </a>
+              </div>
+              <div className="flex justify-center space-x-8">
+                <p className="text-red-500">Take action now and see real results!</p>
+                <p className="text-blue-500">Keep watching Netflix and stay where you are</p>
+              </div>
             </motion.div>
           </div>
         </section>
@@ -338,7 +421,6 @@ function App() {
 
       <Footer />
 
-      {/* Scroll Down Button */}
       {showScrollButton && !hasPassedTestimonial && (
         <motion.button
           initial={{ opacity: 0, y: 20 }}

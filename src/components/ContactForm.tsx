@@ -10,12 +10,24 @@ const services = [
   'Digital Marketing',
 ];
 
+const referralSources = [
+  'Google Search',
+  'Social Media',
+  'Friend/Colleague Recommendation',
+  'Online Advertisement',
+  'Other'
+];
+
 function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     service: '',
     message: '',
+    referralSource: '',
+    mainQuestion: '',
+    adSpend: '',
+    website: '',
     additionalInfo: ''
   });
 
@@ -25,8 +37,6 @@ function ContactForm() {
     e.preventDefault();
     setStatus('submitting');
 
-    console.log("Form data being sent:", formData); // Logowanie danych formularza przed wysłaniem
-
     try {
       await sendEmail(formData);
       setStatus('success');
@@ -35,6 +45,10 @@ function ContactForm() {
         email: '',
         service: '',
         message: '',
+        referralSource: '',
+        mainQuestion: '',
+        adSpend: '',
+        website: '',
         additionalInfo: ''
       });
     } catch (error) {
@@ -49,6 +63,8 @@ function ContactForm() {
       [e.target.name]: e.target.value
     }));
   };
+
+  const showMarketingFields = formData.service === 'Digital Marketing';
 
   return (
     <div className="border border-white p-8 rounded-lg">
@@ -89,6 +105,57 @@ function ContactForm() {
             ))}
           </select>
         </div>
+        <div>
+          <select
+            name="referralSource"
+            value={formData.referralSource}
+            onChange={handleChange}
+            required
+            className="w-full p-4 bg-black border border-white rounded-lg mb-4 focus:outline-none focus:border-white text-white"
+          >
+            <option value="">How did you find us?</option>
+            {referralSources.map(source => (
+              <option key={source} value={source}>{source}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <textarea
+            name="mainQuestion"
+            placeholder="What is your most important question?"
+            value={formData.mainQuestion}
+            onChange={handleChange}
+            required
+            rows={3}
+            className="w-full p-4 bg-black border border-white rounded-lg mb-4 focus:outline-none focus:border-white text-white"
+          />
+        </div>
+        {showMarketingFields && (
+          <>
+            <div>
+              <input
+                type="number"
+                name="adSpend"
+                placeholder="How much are you spending on advertising / month (In USD)?"
+                value={formData.adSpend}
+                onChange={handleChange}
+                required
+                className="w-full p-4 bg-black border border-white rounded-lg mb-4 focus:outline-none focus:border-white text-white"
+              />
+            </div>
+            <div>
+              <input
+                type="url"
+                name="website"
+                placeholder="What is your website?"
+                value={formData.website}
+                onChange={handleChange}
+                required
+                className="w-full p-4 bg-black border border-white rounded-lg mb-4 focus:outline-none focus:border-white text-white"
+              />
+            </div>
+          </>
+        )}
         <div>
           <textarea
             name="message"
