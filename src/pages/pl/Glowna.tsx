@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye } from 'lucide-react';
+import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye, ChevronDown } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -79,6 +79,19 @@ const differentiators = [
 
 function Glowna() {
   const { isAuthenticated } = useAuth();
+  const [showScrollButton, setShowScrollButton] = useState(false);
+  const [hasPassedTestimonial, setHasPassedTestimonial] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact-section');
@@ -86,6 +99,27 @@ function Glowna() {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const testimonialSection = document.getElementById('testimonial-section');
+      if (testimonialSection) {
+        const rect = testimonialSection.getBoundingClientRect();
+        const hasEntered = rect.top <= window.innerHeight;
+        const hasPassed = rect.bottom <= 0;
+        
+        setShowScrollButton(hasEntered && !hasPassed);
+        setHasPassedTestimonial(hasPassed);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col overflow-x-hidden">
@@ -102,12 +136,33 @@ function Glowna() {
               transition={{ duration: 1 }}
               className="z-10 flex flex-col items-center lg:items-start justify-center text-center lg:text-left"
             >
-              <h1 className="text-4xl md:text-7xl font-bold mb-4 tracking-wider text-white">
-                Pozyskaj Klientów.<br />Wywołując Uwagę.<br /> Gwarantowane.
+              <h1 className="text-4xl md:text-7xl font-bold mb-4 tracking-wider text-white relative">
+                Pozyskaj 
+                <span className="relative inline-block mx-2">
+                  Więcej
+                  <svg className="absolute -z-10 opacity-20" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <path d="M0,50 L100,0 L100,100 Z" fill="url(#graph-gradient)" />
+                  </svg>
+                </span>
+                Klientów<br />Poprzez 
+                <span className="burning-text relative inline-block mx-2">
+                  Przyciąganie
+                </span>
+                Uwagi.<br />
+                <span className="relative inline-block">
+                  Gwarantowane Rezultaty.
+                  <motion.div
+                    className="absolute -inset-1 -z-10"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.2 }}
+                  >
+                    <Shield className="w-full h-full text-white opacity-100" />
+                  </motion.div>
+                </span>
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-400">
-                Przekształć swoją firmę dzięki najnowocześniejszym rozwiązaniom AI, które przynoszą realne rezultaty. 
-                Wyróżnij się w cyfrowym świecie i obserwuj, jak Twój rozwój przyspiesza.
+                Przyciągaj ruch do swojej usługi, wdrażaj nowoczesne rozwiązania marketingu cyfrowego.
+                Przekształć swój biznes z realnymi wynikami i obserwuj, jak Twój rozwój przyspiesza.
               </p>
               <button 
                 onClick={scrollToContact}
@@ -116,9 +171,11 @@ function Glowna() {
                 Tak, chcę tego!
               </button>
             </motion.div>
-            <div className="h-[500px] w-full">
-              <Spline scene="https://prod.spline.design/di-MaYwy3xhfsS0H/scene.splinecode" />
-            </div>
+            {!isMobile && (
+              <div className="h-[500px] w-full">
+                <Spline scene="https://prod.spline.design/di-MaYwy3xhfsS0H/scene.splinecode" />
+              </div>
+            )}
           </div>
         </section>
 
@@ -296,7 +353,7 @@ function Glowna() {
         </section>
 
         {/* Latest Testimonial Section */}
-        <section className="py-20 px-4 border-t border-gray-800">
+        <section id="testimonial-section" className="py-20 px-4 border-t border-gray-800">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -323,9 +380,52 @@ function Glowna() {
                   </div>
                 </div>
                 <div className="space-y-8">
-                  <img src="/5.png" alt="Giant Moto Referencja 1" className="w-full rounded-lg shadow-lg" />
-                  <img src="/3.png" alt="Giant Moto Referencja 2" className="w-full rounded-lg shadow-lg" />
+                  <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/Strona1.png" alt="Giant Moto Referencja 1" className="w-full rounded-lg shadow-lg" />
+                  <img src="https://raw.githubusercontent.com/XRlayth/zdjecia/main/strona2.jpg" alt="Giant Moto Referencja 2" className="w-full rounded-lg shadow-lg" />
                 </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Call to Action Section */}
+        <section className="py-20 px-4 bg-gradient-to-r from-black to-gray-900">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl md:text-6xl font-bold mb-8">
+                Nie zastanawiaj się zbyt długo.<br />
+                Podejmij działanie, przekształć swój biznes.<br />
+                <span className="relative inline-block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+                  Gwarantowane.
+                </span>
+              </h2>
+              <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8 mb-8">
+                <Link
+                  to="/główna/kontakt"
+                  className="pill-button pill-red"
+                  onClick={scrollToTop}
+                >
+                  <span className="pill-shine"></span>
+                  Otrzymaj Darmową Konsultację Marketingową
+                </Link>
+                <a
+                  href="https://netflix.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pill-button pill-blue"
+                >
+                  <span className="pill-shine"></span>
+                  Zostań w strefie komfortu
+                </a>
+              </div>
+              <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8">
+                <p className="text-red-500">Podejmij działanie teraz, umów się na darmową konsultację marketingową i zobacz realne rezultaty!</p>
+                <p className="text-blue-500">Oglądaj dalej Netflix i zostań tam gdzie jesteś</p>
               </div>
             </motion.div>
           </div>
@@ -333,6 +433,19 @@ function Glowna() {
       </main>
 
       <Footer />
+
+      {showScrollButton && !hasPassedTestimonial && (
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          onClick={() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' })}
+          className="scroll-button"
+        >
+          <span>Przewiń w dół</span>
+          <ChevronDown className="w-5 h-5" />
+        </motion.button>
+      )}
     </div>
   );
 }
