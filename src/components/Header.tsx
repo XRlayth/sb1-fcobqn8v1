@@ -13,7 +13,6 @@ function Header() {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
 
-  // Set English as default language
   useEffect(() => {
     if (!i18n.language) {
       i18n.changeLanguage('en');
@@ -54,7 +53,11 @@ function Header() {
       }
     }
 
-    // Handle reverse mapping (from Polish to English paths)
+    // Handle nested routes
+    const segments = pathWithoutPrefix.split('/');
+    const mainPath = segments[0];
+    const subPath = segments[1];
+
     const reverseMappings: { [key: string]: string } = {
       'o-nas': 'about',
       'usługi': 'services',
@@ -87,13 +90,18 @@ function Header() {
       'services/digital-marketing': 'marketing-cyfrowy'
     };
 
-    // Convert path to appropriate language
     if (targetLanguage === 'en') {
-      const englishPath = reverseMappings[pathWithoutPrefix];
-      return englishPath ? `/main/${englishPath}` : '/main';
+      const englishPath = reverseMappings[mainPath];
+      if (englishPath) {
+        return `/main/${englishPath}${subPath ? '/' + subPath : ''}`;
+      }
+      return `/main/${pathWithoutPrefix}`;
     } else {
-      const polishPath = englishMappings[pathWithoutPrefix];
-      return polishPath ? `/główna/${polishPath}` : '/główna';
+      const polishPath = englishMappings[mainPath];
+      if (polishPath) {
+        return `/główna/${polishPath}${subPath ? '/' + subPath : ''}`;
+      }
+      return `/główna/${pathWithoutPrefix}`;
     }
   };
 

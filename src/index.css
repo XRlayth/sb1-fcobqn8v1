@@ -203,10 +203,60 @@
     @apply fixed bottom-8 right-8 bg-black text-white px-6 py-3 rounded-full font-bold 
            flex items-center space-x-2 transition-all duration-300 z-50
            border border-white hover:bg-white hover:text-black;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  }
+
+  .scroll-button:hover {
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
   }
 
   .scroll-button.hidden {
     @apply opacity-0 pointer-events-none;
+  }
+
+  /* Realistic pill styles */
+  .pill-button {
+    @apply px-8 py-4 rounded-full text-xl font-bold transition-all duration-300 transform hover:scale-105;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pill-red {
+    background: linear-gradient(135deg, #ff1a1a, #cc0000);
+    box-shadow: 
+      0 4px 8px rgba(255, 0, 0, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .pill-blue {
+    background: linear-gradient(135deg, #1a75ff, #0052cc);
+    box-shadow: 
+      0 4px 8px rgba(0, 82, 204, 0.3),
+      inset 0 2px 4px rgba(255, 255, 255, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .pill-shine {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    0% { left: -100%; }
+    50% { left: 200%; }
+    100% { left: 200%; }
   }
 
   /* Target icon design */

@@ -81,6 +81,17 @@ function App() {
   const { isAuthenticated } = useAuth();
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [hasPassedTestimonial, setHasPassedTestimonial] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const scrollToContact = () => {
     const contactSection = document.getElementById('contact-section');
@@ -89,11 +100,8 @@ function App() {
     }
   };
 
-  const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth'
-    });
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -142,19 +150,19 @@ function App() {
                 </span>
                 Attention.<br />
                 <span className="relative inline-block">
-                  Guaranteed Results
+                  Guaranteed Results.
                   <motion.div
                     className="absolute -inset-1 -z-10"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.2 }}
                   >
-                    <Shield className="w-full h-full text-white opacity-65" />
+                    <Shield className="w-full h-full text-white opacity-100" />
                   </motion.div>
                 </span>
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-400">
-                Transform your business with cutting-edge AI solutions that deliver real results. 
-                Stand out in the digital landscape and watch your growth skyrocket.
+                Ignite and attract traffic to your service, implement modernised digital marketing solutions.
+                Transform your business with real results and watch your growth skyrocket.
               </p>
               <button 
                 onClick={scrollToContact}
@@ -163,9 +171,11 @@ function App() {
                 Yes, I want that!
               </button>
             </motion.div>
-            <div className="h-[500px] w-full">
-              <Spline scene="https://prod.spline.design/di-MaYwy3xhfsS0H/scene.splinecode" />
-            </div>
+            {!isMobile && (
+              <div className="h-[500px] w-full">
+                <Spline scene="https://prod.spline.design/di-MaYwy3xhfsS0H/scene.splinecode" />
+              </div>
+            )}
           </div>
         </section>
 
@@ -383,7 +393,7 @@ function App() {
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
@@ -394,24 +404,27 @@ function App() {
                   Guaranteed.
                 </span>
               </h2>
-              <div className="flex justify-center space-x-8 mb-8">
+              <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8 mb-8">
                 <Link
-                  to="/contact"
-                  className="px-8 py-4 bg-red-600 text-white rounded-full text-xl font-bold hover:bg-red-700 transition-all duration-300 transform hover:scale-105"
+                  to="/main/contact"
+                  className="pill-button pill-red"
+                  onClick={scrollToTop}
                 >
-                  Improve your business
+                  <span className="pill-shine"></span>
+                  Get Free Marketing Consultation
                 </Link>
                 <a
                   href="https://netflix.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-4 bg-blue-600 text-white rounded-full text-xl font-bold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105"
+                  className="pill-button pill-blue"
                 >
+                  <span className="pill-shine"></span>
                   Stay in comfort zone
                 </a>
               </div>
-              <div className="flex justify-center space-x-8">
-                <p className="text-red-500">Take action now and see real results!</p>
+              <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8">
+                <p className="text-red-500">Take action now, book a free marketing consultation and see real results!</p>
                 <p className="text-blue-500">Keep watching Netflix and stay where you are</p>
               </div>
             </motion.div>
@@ -426,7 +439,7 @@ function App() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          onClick={scrollToBottom}
+          onClick={() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' })}
           className="scroll-button"
         >
           <span>Scroll down</span>
