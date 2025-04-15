@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PenTool, ArrowRight } from 'lucide-react';
-import Naglowek from '../components/Naglowek';
+import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 function UslugiTworzenieTresci() {
