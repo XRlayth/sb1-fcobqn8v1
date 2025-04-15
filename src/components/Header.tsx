@@ -38,76 +38,51 @@ function Header() {
   };
 
   const getLocalizedPath = (currentPath: string, targetLanguage: 'en' | 'pl') => {
+    console.log('Current path:', currentPath);
+    
     // Handle root paths
-    if (currentPath === '/główna' || currentPath === '/main') {
-      return targetLanguage === 'en' ? '/main' : '/główna';
+    if (currentPath === '/główna' || currentPath === '/main' || currentPath === '/') {
+      const newPath = targetLanguage === 'en' ? '/main' : '/główna';
+      console.log('New path (root):', newPath);
+      return newPath;
     }
 
     // Remove language prefix and leading slash
-    const pathWithoutPrefix = currentPath.replace(/^\/główna\/|^\/main\//, '');
+    const pathWithoutPrefix = currentPath
+      .replace(/^\/główna\/?/, '')
+      .replace(/^\/main\/?/, '')
+      .replace(/^\//, '');
+
+    // If the path is empty after removing prefix, return root path
+    if (!pathWithoutPrefix) {
+      const newPath = targetLanguage === 'en' ? '/main' : '/główna';
+      console.log('New path (empty):', newPath);
+      return newPath;
+    }
 
     // Find direct mapping
     for (const [key, paths] of Object.entries(pathMappings)) {
       if (pathWithoutPrefix === key) {
-        return paths[targetLanguage];
+        const newPath = paths[targetLanguage];
+        console.log('New path (direct mapping):', newPath);
+        return newPath;
       }
     }
 
     // Handle nested routes
     const segments = pathWithoutPrefix.split('/');
-    const mainPath = segments[0];
-    const subPath = segments[1];
-
-    const reverseMappings: { [key: string]: string } = {
-      'o-nas': 'about',
-      'usługi': 'services',
-      'kontakt': 'contact',
-      'rozpocznij': 'get-started',
-      'panel': 'dashboard',
-      'konto': 'account',
-      'reset-hasła': 'reset-password',
-      'chatboty': 'services/chatbots',
-      'automatyzacja-połączeń': 'services/phone-callers',
-      'projektowanie-stron': 'services/web-design',
-      'rozwiązania-ai': 'services/custom-ai',
-      'tworzenie-treści': 'services/content-creation',
-      'marketing-cyfrowy': 'services/digital-marketing'
-    };
-
-    const englishMappings: { [key: string]: string } = {
-      'about': 'o-nas',
-      'services': 'usługi',
-      'contact': 'kontakt',
-      'get-started': 'rozpocznij',
-      'dashboard': 'panel',
-      'account': 'konto',
-      'reset-password': 'reset-hasła',
-      'services/chatbots': 'chatboty',
-      'services/phone-callers': 'automatyzacja-połączeń',
-      'services/web-design': 'projektowanie-stron',
-      'services/custom-ai': 'rozwiązania-ai',
-      'services/content-creation': 'tworzenie-treści',
-      'services/digital-marketing': 'marketing-cyfrowy'
-    };
-
-    if (targetLanguage === 'en') {
-      const englishPath = reverseMappings[mainPath];
-      if (englishPath) {
-        return `/main/${englishPath}${subPath ? '/' + subPath : ''}`;
-      }
-      return `/main/${pathWithoutPrefix}`;
-    } else {
-      const polishPath = englishMappings[mainPath];
-      if (polishPath) {
-        return `/główna/${polishPath}${subPath ? '/' + subPath : ''}`;
-      }
-      return `/główna/${pathWithoutPrefix}`;
-    }
+    const prefix = targetLanguage === 'en' ? '/main/' : '/główna/';
+    const newPath = prefix + pathWithoutPrefix;
+    console.log('New path (nested):', newPath);
+    return newPath;
   };
 
   const handleLanguageSwitch = (lng: string) => {
+    const currentPath = location.pathname;
+    const newPath = getLocalizedPath(currentPath, lng as 'en' | 'pl');
+    console.log('Language switch:', { currentPath, newPath, language: lng });
     i18n.changeLanguage(lng);
-    navigate('/główna');
+    navigate(newPath);
   };
 
   const aiServices = [
