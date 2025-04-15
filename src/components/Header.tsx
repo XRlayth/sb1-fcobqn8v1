@@ -50,30 +50,28 @@ function Header() {
   };
 
   // Get localized path for navigation
-  const getLocalizedPath = (path: string, targetLang: 'en' | 'pl'): string => {
-    // Handle root paths
-    if (path === '/main' || path === '/główna' || path === '/') {
-      return routes.root[targetLang];
+const getLocalizedPath = (path: string, targetLang: 'en' | 'pl'): string => {
+  // Znajdujemy pełną wersję path bez prefiksów językowych
+  const normalizedPath = path
+    .replace(/^\/(main|główna)/, '') // Usuwa /main lub /główna
+    .replace(/^\//, ''); // Usuwa ewentualny dodatkowy / na początku
+
+  // Szukamy odpowiedniego route w routes
+  for (const routeKey in routes) {
+    const route = routes[routeKey];
+    if (
+      normalizedPath === route.en.replace(/^\/main\/?/, '') ||
+      normalizedPath === route.pl.replace(/^\/główna\/?/, '')
+    ) {
+      return route[targetLang];
     }
+  }
 
-    // Remove language prefix
-    const cleanPath = path
-      .replace(/^\/główna\//, '')
-      .replace(/^\/main\//, '')
-      .replace(/^\//, '');
+  // Jeśli nie ma dopasowania — wracamy do root
+  return routes.root[targetLang];
+};
 
-    // Find matching route
-    for (const [key, value] of Object.entries(routes)) {
-      if (cleanPath === key || cleanPath === value.en || cleanPath === value.pl) {
-        return value[targetLang];
-      }
-    }
-
-    // Default to root if no match found
-    return routes.root[targetLang];
-  };
-
-  // Handle language switching
+   // Handle language switching
   const handleLanguageSwitch = (lang: string) => {
     if (i18n.language === lang) return;
 
