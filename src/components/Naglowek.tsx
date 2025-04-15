@@ -50,8 +50,10 @@ function Naglowek() {
 
   const handleLanguageSwitch = (lng: string) => {
     if (lng === 'en') {
+      const currentPath = location.pathname;
+      const englishPath = getEnglishPath(currentPath);
       i18n.changeLanguage(lng);
-      navigate('/main');
+      navigate(englishPath);
     }
   };
 
@@ -256,7 +258,6 @@ function Naglowek() {
                       onClick={() => setIsAIServicesOpen(!isAIServicesOpen)}
                     >
                       <span>AI Services</span>
-                      
                       <ChevronDown className={`w-4 h-4 transform transition-transform ${isAIServicesOpen ? 'rotate-180' : ''}`} />
                     </button>
                     

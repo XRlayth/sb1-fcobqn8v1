@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye, ChevronDown } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
-import Naglowek from '../components/Naglowek';
+import Naglowek from '../../components/Naglowek';
 import Footer from '../../components/Footer';
 import ContactForm from '../../components/ContactForm';
 import { useAuth } from '../../hooks/useAuth';
@@ -124,7 +124,7 @@ function Glowna() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col overflow-x-hidden">
       <CustomCursor />
-      <Header />
+      <Naglowek />
       
       <main className="flex-grow">
         {/* Hero Section */}

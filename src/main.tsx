@@ -38,13 +38,11 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
       <Routes>
+        {/* Default redirect */}
         <Route path="/" element={<Navigate to="/main" replace />} />
-        <Route path="/main" element={<App />} />
-        <Route path="/główna" element={<Glowna />} />
-        <Route path="/en/*" element={<Navigate to="/main" replace />} />
-        <Route path="/pl/*" element={<Navigate to="/główna" replace />} />
         
         {/* English routes */}
+        <Route path="/main" element={<App />} />
         <Route path="/main/about" element={<About />} />
         <Route path="/main/services" element={<Services />} />
         <Route path="/main/contact" element={<Contact />} />
@@ -63,16 +61,20 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/main/cookies" element={<Cookies />} />
 
         {/* Polish routes */}
+        <Route path="/główna" element={<Glowna />} />
         <Route path="/główna/o-nas" element={<ONas />} />
         <Route path="/główna/usługi" element={<Uslugi />} />
         <Route path="/główna/kontakt" element={<Kontakt />} />
         <Route path="/główna/usługi/chatboty" element={<UslugiChatboty />} />
         <Route path="/główna/usługi/automatyzacja-połączeń" element={<UslugiAutomatyzacjaPolaczen />} />
         <Route path="/główna/usługi/projektowanie-stron" element={<UslugiProjektowanieStron />} />
-        
         <Route path="/główna/usługi/rozwiązania-ai" element={<UslugiRozwiazaniaAI />} />
         <Route path="/główna/usługi/tworzenie-treści" element={<UslugiTworzenieTresci />} />
         <Route path="/główna/usługi/marketing-cyfrowy" element={<UslugiMarketingCyfrowy />} />
+
+        {/* Language redirects */}
+        <Route path="/en/*" element={<Navigate to="/main" replace />} />
+        <Route path="/pl/*" element={<Navigate to="/główna" replace />} />
       </Routes>
     </Router>
   </StrictMode>
