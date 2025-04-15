@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import Header from '../../components/Header';
+import Naglowek from '../components/Naglowek';
 import Footer from '../../components/Footer';
 
 const services = [

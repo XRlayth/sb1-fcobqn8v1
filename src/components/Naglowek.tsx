@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/useAuth';
 import { ChevronDown, Menu, X } from 'lucide-react';
 
-function Header() {
+function Naglowek() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,50 +15,13 @@ function Header() {
 
   useEffect(() => {
     if (!i18n.language) {
-      i18n.changeLanguage('en');
+      i18n.changeLanguage('pl');
     }
   }, [i18n]);
 
-  const isPolish = i18n.language === 'pl' || location.pathname.includes('główna');
-
-  const pathMappings = {
-    'about': { en: '/main/about', pl: '/główna/o-nas' },
-    'services': { en: '/main/services', pl: '/główna/usługi' },
-    'contact': { en: '/main/contact', pl: '/główna/kontakt' },
-    'get-started': { en: '/main/get-started', pl: '/główna/rozpocznij' },
-    'dashboard': { en: '/main/dashboard', pl: '/główna/panel' },
-    'account': { en: '/main/account', pl: '/główna/konto' },
-    'reset-password': { en: '/main/reset-password', pl: '/główna/reset-hasła' },
-    'services/chatbots': { en: '/main/services/chatbots', pl: '/główna/usługi/chatboty' },
-    'services/phone-callers': { en: '/main/services/phone-callers', pl: '/główna/usługi/automatyzacja-połączeń' },
-    'services/web-design': { en: '/main/services/web-design', pl: '/główna/usługi/projektowanie-stron' },
-    'services/custom-ai': { en: '/main/services/custom-ai', pl: '/główna/usługi/rozwiązania-ai' },
-    'services/content-creation': { en: '/main/services/content-creation', pl: '/główna/usługi/tworzenie-treści' },
-    'services/digital-marketing': { en: '/main/services/digital-marketing', pl: '/główna/usługi/marketing-cyfrowy' }
-  };
-
-  const getLocalizedPath = (currentPath: string, targetLanguage: 'en' | 'pl') => {
-    // Handle root paths
-    if (currentPath === '/główna' || currentPath === '/main') {
-      return targetLanguage === 'en' ? '/main' : '/główna';
-    }
-
-    // Remove language prefix and leading slash
-    const pathWithoutPrefix = currentPath.replace(/^\/główna\/|^\/main\//, '');
-
-    // Find direct mapping
-    for (const [key, paths] of Object.entries(pathMappings)) {
-      if (pathWithoutPrefix === key) {
-        return paths[targetLanguage];
-      }
-    }
-
-    // Handle nested routes
-    const segments = pathWithoutPrefix.split('/');
-    const mainPath = segments[0];
-    const subPath = segments[1];
-
-    const reverseMappings: { [key: string]: string } = {
+  const getEnglishPath = (polishPath: string): string => {
+    const pathMappings: { [key: string]: string } = {
+      'główna': 'main',
       'o-nas': 'about',
       'usługi': 'services',
       'kontakt': 'contact',
@@ -74,52 +37,34 @@ function Header() {
       'marketing-cyfrowy': 'services/digital-marketing'
     };
 
-    const englishMappings: { [key: string]: string } = {
-      'about': 'o-nas',
-      'services': 'usługi',
-      'contact': 'kontakt',
-      'get-started': 'rozpocznij',
-      'dashboard': 'panel',
-      'account': 'konto',
-      'reset-password': 'reset-hasła',
-      'services/chatbots': 'chatboty',
-      'services/phone-callers': 'automatyzacja-połączeń',
-      'services/web-design': 'projektowanie-stron',
-      'services/custom-ai': 'rozwiązania-ai',
-      'services/content-creation': 'tworzenie-treści',
-      'services/digital-marketing': 'marketing-cyfrowy'
-    };
+    // Remove 'główna' prefix and leading slash
+    const path = polishPath.replace(/^\/główna\/?/, '');
+    
+    if (!path) return '/main';
 
-    if (targetLanguage === 'en') {
-      const englishPath = reverseMappings[mainPath];
-      if (englishPath) {
-        return `/main/${englishPath}${subPath ? '/' + subPath : ''}`;
-      }
-      return `/main/${pathWithoutPrefix}`;
-    } else {
-      const polishPath = englishMappings[mainPath];
-      if (polishPath) {
-        return `/główna/${polishPath}${subPath ? '/' + subPath : ''}`;
-      }
-      return `/główna/${pathWithoutPrefix}`;
-    }
+    const segments = path.split('/');
+    const mappedSegments = segments.map(segment => pathMappings[segment] || segment);
+    
+    return '/main/' + mappedSegments.join('/');
   };
 
   const handleLanguageSwitch = (lng: string) => {
-    i18n.changeLanguage(lng);
-    navigate('/główna');
+    if (lng === 'en') {
+      i18n.changeLanguage(lng);
+      navigate('/main');
+    }
   };
 
   const aiServices = [
-    { name: t('nav.aiChatbots'), path: getLocalizedPath('services/chatbots', isPolish ? 'pl' : 'en') },
-    { name: t('nav.phoneCallers'), path: getLocalizedPath('services/phone-callers', isPolish ? 'pl' : 'en') },
-    { name: t('nav.customAI'), path: getLocalizedPath('services/custom-ai', isPolish ? 'pl' : 'en') },
+    { name: t('nav.aiChatbots'), path: '/główna/usługi/chatboty' },
+    { name: t('nav.phoneCallers'), path: '/główna/usługi/automatyzacja-połączeń' },
+    { name: t('nav.customAI'), path: '/główna/usługi/rozwiązania-ai' },
   ];
 
   const otherServices = [
-    { name: t('nav.webDesign'), path: getLocalizedPath('services/web-design', isPolish ? 'pl' : 'en') },
-    { name: t('nav.contentCreation'), path: getLocalizedPath('services/content-creation', isPolish ? 'pl' : 'en') },
-    { name: t('nav.digitalMarketing'), path: getLocalizedPath('services/digital-marketing', isPolish ? 'pl' : 'en') }
+    { name: t('nav.webDesign'), path: '/główna/usługi/projektowanie-stron' },
+    { name: t('nav.contentCreation'), path: '/główna/usługi/tworzenie-treści' },
+    { name: t('nav.digitalMarketing'), path: '/główna/usługi/marketing-cyfrowy' }
   ];
 
   const handleLinkClick = () => {
@@ -133,7 +78,7 @@ function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
       <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link 
-          to={isPolish ? '/główna' : '/main'}
+          to="/główna"
           className="flex items-center space-x-3 frame-hover"
           onClick={() => window.scrollTo(0, 0)}
         >
@@ -153,9 +98,7 @@ function Header() {
           <div className="flex items-center space-x-4 mr-4">
             <button
               onClick={() => handleLanguageSwitch('en')}
-              className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                !isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
-              }`}
+              className="w-8 h-6 rounded overflow-hidden opacity-50 hover:opacity-75 transition-opacity"
             >
               <img
                 src="https://flagcdn.com/w40/us.png"
@@ -164,10 +107,7 @@ function Header() {
               />
             </button>
             <button
-              onClick={() => handleLanguageSwitch('pl')}
-              className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
-              }`}
+              className="w-8 h-6 rounded overflow-hidden ring-2 ring-white"
             >
               <img
                 src="https://flagcdn.com/w40/pl.png"
@@ -180,7 +120,7 @@ function Header() {
           <div className="relative group">
             <button
               className={`text-sm font-medium transition-colors duration-300 flex items-center space-x-1 frame-hover ${
-                location.pathname.includes('services') || location.pathname.includes('usługi') ? 'text-white' : 'text-gray-400 hover:text-white'
+                location.pathname.includes('usługi') ? 'text-white' : 'text-gray-400 hover:text-white'
               }`}
               onClick={() => setIsServicesOpen(!isServicesOpen)}
             >
@@ -191,7 +131,7 @@ function Header() {
             {isServicesOpen && (
               <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-gray-800 rounded-lg shadow-xl py-2">
                 <Link
-                  to={getLocalizedPath('services', isPolish ? 'pl' : 'en')}
+                  to="/główna/usługi"
                   className="block px-4 py-2 text-sm text-gray-400 hover:text-white frame-hover"
                   onClick={handleLinkClick}
                 >
@@ -200,7 +140,7 @@ function Header() {
                 
                 <div className="relative group/ai">
                   <Link
-                    to={getLocalizedPath('services', isPolish ? 'pl' : 'en')}
+                    to="/główna/usługi"
                     className="w-full text-left px-4 py-2 text-sm text-gray-400 hover:text-white frame-hover flex items-center justify-between"
                     onMouseEnter={() => setIsAIServicesOpen(true)}
                     onMouseLeave={() => setIsAIServicesOpen(false)}
@@ -243,22 +183,22 @@ function Header() {
             )}
           </div>
 
-          <NavLink to={getLocalizedPath('contact', isPolish ? 'pl' : 'en')} active={location.pathname.includes('contact') || location.pathname.includes('kontakt')}>
+          <NavLink to="/główna/kontakt" active={location.pathname.includes('kontakt')}>
             {t('nav.contact')}
           </NavLink>
 
-          <NavLink to={getLocalizedPath('about', isPolish ? 'pl' : 'en')} active={location.pathname.includes('about') || location.pathname.includes('o-nas')}>
+          <NavLink to="/główna/o-nas" active={location.pathname.includes('o-nas')}>
             {t('nav.about')}
           </NavLink>
           
           {isAuthenticated && (
-            <NavLink to={getLocalizedPath('account', isPolish ? 'pl' : 'en')} active={location.pathname.includes('account') || location.pathname.includes('konto')}>
+            <NavLink to="/główna/konto" active={location.pathname.includes('konto')}>
               {t('nav.account')}
             </NavLink>
           )}
           
           <Link
-            to={isAuthenticated ? getLocalizedPath('dashboard', isPolish ? 'pl' : 'en') : getLocalizedPath('get-started', isPolish ? 'pl' : 'en')}
+            to={isAuthenticated ? "/główna/panel" : "/główna/rozpocznij"}
             className="px-6 py-2 rounded-full border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300 frame-hover"
             onClick={() => window.scrollTo(0, 0)}
           >
@@ -273,9 +213,7 @@ function Header() {
               <div className="flex justify-center space-x-4 mb-4">
                 <button
                   onClick={() => handleLanguageSwitch('en')}
-                  className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    !isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
-                  }`}
+                  className="w-8 h-6 rounded overflow-hidden opacity-50 hover:opacity-75 transition-opacity"
                 >
                   <img
                     src="https://flagcdn.com/w40/us.png"
@@ -284,10 +222,7 @@ function Header() {
                   />
                 </button>
                 <button
-                  onClick={() => handleLanguageSwitch('pl')}
-                  className={`w-8 h-6 rounded overflow-hidden transition-opacity ${
-                    isPolish ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-75'
-                  }`}
+                  className="w-8 h-6 rounded overflow-hidden ring-2 ring-white"
                 >
                   <img
                     src="https://flagcdn.com/w40/pl.png"
@@ -309,7 +244,7 @@ function Header() {
                 {isServicesOpen && (
                   <div className="pl-8 space-y-2 mt-2">
                     <Link
-                      to={getLocalizedPath('services', isPolish ? 'pl' : 'en')}
+                      to="/główna/usługi"
                       className="block px-4 py-2 text-sm text-gray-400 hover:text-white"
                       onClick={handleLinkClick}
                     >
@@ -321,6 +256,7 @@ function Header() {
                       onClick={() => setIsAIServicesOpen(!isAIServicesOpen)}
                     >
                       <span>AI Services</span>
+                      
                       <ChevronDown className={`w-4 h-4 transform transition-transform ${isAIServicesOpen ? 'rotate-180' : ''}`} />
                     </button>
                     
@@ -354,7 +290,7 @@ function Header() {
               </div>
 
               <Link
-                to={getLocalizedPath('contact', isPolish ? 'pl' : 'en')}
+                to="/główna/kontakt"
                 className="block px-4 py-2 text-gray-400 hover:text-white"
                 onClick={handleLinkClick}
               >
@@ -362,7 +298,7 @@ function Header() {
               </Link>
 
               <Link
-                to={getLocalizedPath('about', isPolish ? 'pl' : 'en')}
+                to="/główna/o-nas"
                 className="block px-4 py-2 text-gray-400 hover:text-white"
                 onClick={handleLinkClick}
               >
@@ -371,7 +307,7 @@ function Header() {
               
               {isAuthenticated && (
                 <Link
-                  to={getLocalizedPath('account', isPolish ? 'pl' : 'en')}
+                  to="/główna/konto"
                   className="block px-4 py-2 text-gray-400 hover:text-white"
                   onClick={handleLinkClick}
                 >
@@ -380,7 +316,7 @@ function Header() {
               )}
               
               <Link
-                to={isAuthenticated ? getLocalizedPath('dashboard', isPolish ? 'pl' : 'en') : getLocalizedPath('get-started', isPolish ? 'pl' : 'en')}
+                to={isAuthenticated ? "/główna/panel" : "/główna/rozpocznij"}
                 className="block px-4 py-2 text-white font-bold hover:bg-white/10"
                 onClick={handleLinkClick}
               >
@@ -408,4 +344,4 @@ function NavLink({ to, active, children }: { to: string; active: boolean; childr
   );
 }
 
-export default Header;
+export default Naglowek;

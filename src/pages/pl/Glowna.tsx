@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { MessageSquare, Phone, Monitor, Bot, PenTool, BarChart3, ArrowRight, UserX, Users, Building2, Target, Shield, Award, Eye, ChevronDown } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
-import Header from '../../components/Header';
+import Naglowek from '../components/Naglowek';
 import Footer from '../../components/Footer';
 import ContactForm from '../../components/ContactForm';
 import { useAuth } from '../../hooks/useAuth';

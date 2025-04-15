@@ -1,7 +1,8 @@
 import React from 'react';
 import { Bot } from 'lucide-react';
 import Footer from '../../components/Footer';
-import Header from '../../components/Header';
+import Naglowek from '../components/Naglowek';
+
 
 const UslugiChatboty = () => {
   return (
