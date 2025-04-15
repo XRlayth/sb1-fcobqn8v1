@@ -51,23 +51,26 @@ function Header() {
 
   // Get localized path for navigation
 const getLocalizedPath = (path: string, targetLang: 'en' | 'pl'): string => {
-  // Znajdujemy pełną wersję path bez prefiksów językowych
   const normalizedPath = path
-    .replace(/^\/(main|główna)/, '') // Usuwa /main lub /główna
-    .replace(/^\//, ''); // Usuwa ewentualny dodatkowy / na początku
+    .replace(/^\/(main|główna)(\/|$)/, '')
+    .replace(/^\//, '');
+  console.log('[getLocalizedPath] normalizedPath:', normalizedPath);
 
-  // Szukamy odpowiedniego route w routes
   for (const routeKey in routes) {
     const route = routes[routeKey];
+    const enNormalized = route.en.replace(/^\/main\/?/, '');
+    const plNormalized = route.pl.replace(/^\/główna\/?/, '');
+
     if (
-      normalizedPath === route.en.replace(/^\/main\/?/, '') ||
-      normalizedPath === route.pl.replace(/^\/główna\/?/, '')
+      normalizedPath.startsWith(enNormalized) ||
+      normalizedPath.startsWith(plNormalized)
     ) {
+      console.log('[getLocalizedPath] match found:', route[targetLang]);
       return route[targetLang];
     }
   }
 
-  // Jeśli nie ma dopasowania — wracamy do root
+  console.warn('[getLocalizedPath] No match, redirecting to root');
   return routes.root[targetLang];
 };
 
