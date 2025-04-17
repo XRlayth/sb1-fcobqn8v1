@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/main//główna"
-  to = "/main"
+  to = "/"
   status = 301
 
 [[redirects]]
