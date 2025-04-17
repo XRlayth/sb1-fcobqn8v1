@@ -1,4 +1,9 @@
 [[redirects]]
+  from = "/main//główna"
+  to = "/main"
+  status = 301
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 20
+  status = 200
