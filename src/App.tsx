@@ -243,7 +243,7 @@ function App() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-6xl font-bold mb-16 text-center">OK... But What Makes You Different?</h2>
+              <h2 className="text-4xl md:text-6xl font-bold mb-16 text-center">OK... But What Makes Us Different?</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {differentiators.map((diff, index) => (
                   <motion.div

@@ -1,12 +1,14 @@
 [[redirects]]
-  from = "/main//główna"
-  to = "/"
+  from = "/main//główna/*"
+  to = "/main"
   status = 301
+  force = true
 
 [[redirects]]
-  from = "/test"
-  to = "/"
+  from = "/main//główna"
+  to = "/main"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/*"

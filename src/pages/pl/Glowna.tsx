@@ -146,7 +146,7 @@ function Glowna() {
                 </span>
                 Klientów<br />Poprzez 
                 <span className="burning-text relative inline-block mx-2">
-                  Przyciąganie
+                  Odpalenie
                 </span>
                 Uwagi.<br />
                 <span className="relative inline-block">
@@ -161,14 +161,14 @@ function Glowna() {
                 </span>
               </h1>
               <p className="text-lg md:text-xl mb-8 text-gray-400">
-                Przyciągaj ruch do swojej usługi, wdrażaj nowoczesne rozwiązania marketingu cyfrowego.
-                Przekształć swój biznes z realnymi wynikami i obserwuj, jak Twój rozwój przyspiesza.
+                 Odpalaj i przyciągaj uwagę, wdrażaj nowoczesne rozwiązania marketingu cyfrowego.
+                 Przekształć swój biznes z realnymi wynikami i obserwuj, jak Twój rozwój przyspiesza.
               </p>
               <button 
                 onClick={scrollToContact}
                 className="px-8 py-3 rounded-full border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300"
               >
-                Tak, chcę tego!
+              Tak, chcę tego!
               </button>
             </motion.div>
             {!isMobile && (
@@ -194,7 +194,7 @@ function Glowna() {
                 I wszystkie są ważne!
               </p>
               <h3 className="text-3xl md:text-5xl font-bold text-center mb-16">
-                Jak więc najlepiej<br />wykorzystać marketing?
+                Jak więc najlepiej<br />wdrożyć marketing?
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -243,7 +243,7 @@ function Glowna() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-6xl font-bold mb-16 text-center">OK... Ale co Was wyróżnia?</h2>
+              <h2 className="text-4xl md:text-6xl font-bold mb-16 text-center">OK... Ale co Nas wyróżnia?</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {differentiators.map((diff, index) => (
                   <motion.div
@@ -411,7 +411,7 @@ function Glowna() {
                   onClick={scrollToTop}
                 >
                   <span className="pill-shine"></span>
-                  Otrzymaj Darmową Konsultację Marketingową
+                  Chcę konsultację!
                 </Link>
                 <a
                   href="https://netflix.com"
@@ -420,12 +420,12 @@ function Glowna() {
                   className="pill-button pill-blue"
                 >
                   <span className="pill-shine"></span>
-                  Zostań w strefie komfortu
+                  Mm, nie chcę.
                 </a>
               </div>
               <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-8">
-                <p className="text-red-500">Podejmij działanie teraz, umów się na darmową konsultację marketingową i zobacz realne rezultaty!</p>
-                <p className="text-blue-500">Oglądaj dalej Netflix i zostań tam gdzie jesteś</p>
+                <p className="text-red-500">Podejmij działanie teraz, umów się na darmową konsultację marketingową.</p>
+                <p className="text-blue-500">Zostań tam gdzie jesteś.</p>
               </div>
             </motion.div>
           </div>

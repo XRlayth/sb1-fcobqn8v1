@@ -1,24 +1,47 @@
 import React, { useState } from 'react';
 import { sendEmail } from '../lib/email';
+import { useTranslation } from 'react-i18next';
 
-const services = [
-  'AI Chatbots',
-  'Phone Callers',
-  'Web Design',
-  'Custom AI Solutions',
-  'Content Creation',
-  'Digital Marketing',
-];
+const services = {
+  en: [
+    'AI Chatbots',
+    'Phone Callers',
+    'Web Design',
+    'Custom AI Solutions',
+    'Content Creation',
+    'Digital Marketing',
+  ],
+  pl: [
+    'Chatboty AI',
+    'Automatyzacja Połączeń',
+    'Projektowanie Stron',
+    'Rozwiązania AI',
+    'Tworzenie Treści',
+    'Marketing Cyfrowy',
+  ]
+};
 
-const referralSources = [
-  'Google Search',
-  'Social Media',
-  'Friend/Colleague Recommendation',
-  'Online Advertisement',
-  'Other'
-];
+const referralSources = {
+  en: [
+    'Google Search',
+    'Social Media',
+    'Friend/Colleague Recommendation',
+    'Online Advertisement',
+    'Other'
+  ],
+  pl: [
+    'Wyszukiwarka Google',
+    'Media Społecznościowe',
+    'Polecenie od Znajomego/Współpracownika',
+    'Reklama Online',
+    'Inne'
+  ]
+};
 
 function ContactForm() {
+  const { i18n } = useTranslation();
+  const isPolish = i18n.language === 'pl';
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -52,7 +75,7 @@ function ContactForm() {
         additionalInfo: ''
       });
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('Error sending form data:', error);
       setStatus('error');
     }
   };
@@ -64,7 +87,7 @@ function ContactForm() {
     }));
   };
 
-  const showMarketingFields = formData.service === 'Digital Marketing';
+  const showMarketingFields = formData.service === (isPolish ? 'Marketing Cyfrowy' : 'Digital Marketing');
 
   return (
     <div className="border border-white p-8 rounded-lg">
@@ -73,7 +96,7 @@ function ContactForm() {
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder={isPolish ? "Imię" : "Name"}
             value={formData.name}
             onChange={handleChange}
             required
@@ -99,8 +122,8 @@ function ContactForm() {
             required
             className="w-full p-4 bg-black border border-white rounded-lg mb-4 focus:outline-none focus:border-white text-white"
           >
-            <option value="">Select a Service</option>
-            {services.map(service => (
+            <option value="">{isPolish ? "Wybierz Usługę" : "Select a Service"}</option>
+            {(isPolish ? services.pl : services.en).map(service => (
               <option key={service} value={service}>{service}</option>
             ))}
           </select>
@@ -113,8 +136,8 @@ function ContactForm() {
             required
             className="w-full p-4 bg-black border border-white rounded-lg mb-4 focus:outline-none focus:border-white text-white"
           >
-            <option value="">How did you find us?</option>
-            {referralSources.map(source => (
+            <option value="">{isPolish ? "Jak nas znalazłeś?" : "How did you find us?"}</option>
+            {(isPolish ? referralSources.pl : referralSources.en).map(source => (
               <option key={source} value={source}>{source}</option>
             ))}
           </select>
@@ -122,7 +145,7 @@ function ContactForm() {
         <div>
           <textarea
             name="mainQuestion"
-            placeholder="What is your most important question?"
+            placeholder={isPolish ? "Jakie jest Twoje najważniejsze pytanie?" : "What is your most important question?"}
             value={formData.mainQuestion}
             onChange={handleChange}
             required
@@ -136,7 +159,7 @@ function ContactForm() {
               <input
                 type="number"
                 name="adSpend"
-                placeholder="How much are you spending on advertising / month (In USD)?"
+                placeholder={isPolish ? "Ile wydajesz na reklamę miesięcznie (w USD)?" : "How much are you spending on advertising / month (In USD)?"}
                 value={formData.adSpend}
                 onChange={handleChange}
                 required
@@ -147,7 +170,7 @@ function ContactForm() {
               <input
                 type="url"
                 name="website"
-                placeholder="What is your website?"
+                placeholder={isPolish ? "Jaka jest Twoja strona internetowa?" : "What is your website?"}
                 value={formData.website}
                 onChange={handleChange}
                 required
@@ -159,7 +182,7 @@ function ContactForm() {
         <div>
           <textarea
             name="message"
-            placeholder="Message"
+            placeholder={isPolish ? "Wiadomość" : "Message"}
             value={formData.message}
             onChange={handleChange}
             required
@@ -170,7 +193,7 @@ function ContactForm() {
         <div>
           <textarea
             name="additionalInfo"
-            placeholder="Additional Information"
+            placeholder={isPolish ? "Dodatkowe Informacje" : "Additional Information"}
             value={formData.additionalInfo}
             onChange={handleChange}
             rows={3}
@@ -182,13 +205,19 @@ function ContactForm() {
           disabled={status === 'submitting'}
           className="w-full px-8 py-4 rounded-lg border border-white text-white font-bold hover:bg-white hover:text-black transition-all duration-300 disabled:opacity-50 shadow-[0_0_15px_rgba(255,255,255,0.3)]"
         >
-          {status === 'submitting' ? 'Sending...' : 'Contact Us'}
+          {status === 'submitting' 
+            ? (isPolish ? 'Wysyłanie...' : 'Sending...') 
+            : (isPolish ? 'Wyślij Wiadomość' : 'Contact Us')}
         </button>
         {status === 'success' && (
-          <p className="text-green-500 mt-4">Message sent successfully!</p>
+          <p className="text-green-500 mt-4">
+            {isPolish ? 'Wiadomość wysłana pomyślnie!' : 'Message sent successfully!'}
+          </p>
         )}
         {status === 'error' && (
-          <p className="text-red-500 mt-4">Error sending message. Please try again.</p>
+          <p className="text-red-500 mt-4">
+            {isPolish ? 'Błąd wysyłania wiadomości. Spróbuj ponownie.' : 'Error sending message. Please try again.'}
+          </p>
         )}
       </form>
     </div>
